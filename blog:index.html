@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="ZeroDay's research blog — write-ups on cryptography,
+    binary exploitation, reverse engineering, and CTF solutions." />
+  <meta property="og:title"       content="Blog | ZeroDay" />
+  <meta property="og:description" content="Security research write-ups and field notes." />
+  <meta name="theme-color"        content="#00ff41" />
+  <title>Blog | ZeroDay</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="animations.css" />
+  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+
+<body class="scanlines">
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="bracket">[</span>ZeroDay<span class="bracket">]</span>
+        <span class="cursor-blink" aria-hidden="true"></span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html">~/home</a></li>
+        <li><a href="about.html">~/about</a></li>
+        <li><a href="projects.html">~/projects</a></li>
+        <li><a href="index.html" class="active">~/blog</a></li>
+      </ul>
+      <button class="nav__hamburger" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav__mobile" role="menu">
+    <a href="index.html">~/home</a>
+    <a href="about.html">~/about</a>
+    <a href="projects.html">~/projects</a>
+    <a href="index.html">~/blog</a>
+  </div>
+
+  <main class="page-content">
+
+    <!-- ══════════════════════════════════════
+         HERO
+    ══════════════════════════════════════ -->
+    <section class="blog-hero" aria-label="Blog introduction">
+      <div class="container">
+
+        <div style="font-family:var(--font-mono);font-size:0.78rem;
+          color:var(--clr-green);letter-spacing:4px;
+          text-transform:uppercase;margin-bottom:1rem;
+          display:flex;align-items:center;justify-content:center;gap:1rem;"
+          data-fade>
+          <span style="width:30px;height:1px;
+            background:var(--clr-green);display:inline-block;"></span>
+          // research_log
+          <span style="width:30px;height:1px;
+            background:var(--clr-green);display:inline-block;"></span>
+        </div>
+
+        <h1 style="text-align:center;margin-bottom:1.25rem;"
+          class="glitch-text" data-text="Research Log"
+          data-fade data-delay="100">
+          Research <span class="text-green">Log</span>
+        </h1>
+
+        <p style="max-width:55ch;margin:0 auto 2.5rem;
+          color:var(--clr-text-secondary);text-align:center;
+          font-size:1rem;line-height:1.8;"
+          data-fade data-delay="200">
+          Write-ups, deep dives, and field notes from ongoing research
+          into cryptography, binary exploitation, reverse engineering,
+          and adversarial techniques. No fluff — just technical depth.
+        </p>
+
+        <!-- Search -->
+        <div class="blog-search" data-fade data-delay="300">
+          <span class="blog-search__icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </span>
+          <input
+            type="search"
+            class="blog-search__input"
+            id="blog-search"
+            placeholder="Search posts..."
+            aria-label="Search blog posts"
+          />
+        </div>
+
+        <!-- Category pills -->
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap;
+          justify-content:center;" data-fade data-delay="400">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="crypto">Cryptography</button>
+          <button class="filter-btn" data-filter="reveng">Reverse Eng.</button>
+          <button class="filter-btn" data-filter="exploit">Exploitation</button>
+          <button class="filter-btn" data-filter="ctf">CTF Write-up</button>
+          <button class="filter-btn" data-filter="network">Network Sec.</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         BLOG LAYOUT
+    ══════════════════════════════════════ -->
+    <section class="section--sm" aria-label="Blog posts">
+      <div class="container">
+        <div class="blog-layout">
+
+          <!-- ── Main posts list ── -->
+          <div id="posts-list">
+
+            <!-- Post 1 -->
+            <article class="blog-post-card"
+              data-category="reveng"
+              aria-label="Post: Unpacking Packed Binaries">
+              <div class="blog-post-card__meta">
+                <span class="blog-post-card__date">2024-11-18</span>
+                <span class="tag tag--cyan">Reverse Eng.</span>
+                <span class="tag tag--amber">Malware</span>
+              </div>
+              <a href="posts/reverse-engineering-basics.html"
+                class="blog-post-card__title">
+                Unpacking Packed Binaries: A Deep Dive into UPX and
+                Custom Packers
+              </a>
+              <p class="blog-post-card__excerpt">
+                Walking through the process of statically and dynamically
+                analysing UPX-packed malware samples. I cover manual
+                unpacking via the OEP trick, scripted unpacking with
+                pefile and capstone, and how custom packer stubs try
+                to defeat automated analysis — including timing checks,
+                anti-debug traps, and encrypted stub sections.
+              </p>
+              <div class="blog-post-card__footer">
+                <span class="blog-post-card__read-time">8 min read</span>
+                <a href="posts/reverse-engineering-basics.html"
+                  class="btn btn--sm btn--ghost">
+                  Read Post →
+                </a>
+              </div>
+            </article>
+
+            <!-- Post 2 -->
+            <article class="blog-post-card"
+              data-category="crypto"
+              aria-label="Post: Breaking Weak RSA">
+              <div class="blog-post-card__meta">
+                <span class="blog-post-card__date">2024-10-30</span>
+                <span class="tag tag--green">Cryptography</span>
+                <span class="tag tag--amber">CTF</span>
+              </div>
+              <a href="posts/cryptography-modern.html"
+                class="blog-post-card__title">
+                Breaking Weak RSA: Small Exponent and Common Modulus
+                Attacks
+              </a>
+              <p class="blog-post-card__excerpt">
+                An implementation-level look at classical RSA vulnerabilities.
+                I cover Wiener's continued fraction attack against small
+                private exponents, the broadcast attack (Håstad's theorem)
+                when the same message is encrypted to multiple recipients,
+                the common modulus attack, and Franklin-Reiter related
+                message attacks — all with working Python PoC code using
+                SageMath and pycryptodome.
+              </p>
+              <div class="blog-post-card__footer">
+                <span class="blog-post-card__read-time">12 min read</span>
+                <a href="posts/cryptography-modern.html"
+                  class="btn btn--sm btn--ghost">
+                  Read Post →
+                </a>
+              </div>
+            </article>
+
+            <!-- Post 3 -->
+            <article class="blog-post-card"
+              data-category="exploit"
+              aria-label="Post: Heap Feng Shui">
+              <div class="blog-post-card__meta">
+                <span class="blog-post-card__date">2024-10-05</span>
+                <span class="tag tag--red">Exploitation</span>
+                <span class="tag tag--cyan">pwn</span>
+              </div>
+              <a href="#" class="blog-post-card__title">
+                Heap Feng Shui: Controlling malloc() for Reliable
+                Exploitation on glibc 2.35
+              </a>
+              <p class="blog-post-card__excerpt">
+                A practical guide to heap grooming techniques on modern
+                glibc. Covering tcache bin poisoning, safe-linking bypass,
+                unsorted bin attacks, house-of-force on older glibc,
+                and house-of-botcake for newer targets. All techniques
+                demonstrated with a real CTF challenge binary and
+                full exploit scripts.
+              </p>
+              <div class="blog-post-card__footer">
+                <span class="blog-post-card__read-time">15 min read</span>
+                <a href="#" class="btn btn--sm btn--ghost">
+                  Read Post →
+                </a>
+              </div>
+            </article>
+
+            <!-- Post 4 -->
+            <article class="blog-post-card"
+              data-category="ctf"
+              aria-label="Post: DEF CON CTF Write-up">
+              <div class="blog-post-card__meta">
+                <span class="blog-post-card__date">2024-09-14</span>
+                <span class="tag tag--amber">CTF Write-up</span>
+                <span class="tag tag--green">DEF CON</span>
+              </div>
+              <a href="#" class="blog-post-card__title">
+                DEF CON CTF 32 Qualifier Write-up: "babyrop2" and
+                "blindcrypt"
+              </a>
+              <p class="blog-post-card__excerpt">
+                Detailed solutions for two challenges from the DEF CON
+                32 CTF qualifiers. "babyrop2" involved a blind ROP chain
+                through a format string leak + ret2plt, and "blindcrypt"
+                required breaking a custom stream cipher with a
+                differential fault analysis approach.
+              </p>
+              <div class="blog-post-card__footer">
+                <span class="blog-post-card__read-time">18 min read</span>
+                <a href="#" class="btn btn--sm btn--ghost">
+                  Read Post →
+                </a>
+              </div>
+            </article>
+
+            <!-- Post 5 -->
+            <article class="blog-post-card"
+              data-category="network"
+              aria-label="Post: TLS Fingerprinting">
+              <div class="blog-post-card__meta">
+                <span class="blog-post-card__date">2024-08-22</span>
+                <span class="tag tag--cyan">Network Sec.</span>
+                <span class="tag tag--green">TLS</span>
+              </div>
+              <a href="#" class="blog-post-card__title">
+                Passive C2 Detection via JA4 TLS Fingerprinting Without
+                Decryption
+              </a>
+              <p class="blog-post-card__excerpt">
+                How JA4 fingerprints are constructed from the TLS
+                ClientHello, why they're more stable than JA3 across
+                different client versions, and how I built a passive
+                sensor that detects known malware C2 frameworks by
+                their TLS fingerprint patterns — tested against Cobalt
+                Strike, Sliver, and Havoc.
+              </p>
+              <div class="blog-post-card__footer">
+                <span class="blog-post-card__read-time">11 min read</span>
+                <a href="#" class="btn btn--sm btn--ghost">
+                  Read Post →
+                </a>
+              </div>
+            </article>
+
+            <!-- Post 6 -->
+            <article class="blog-post-card"
+              data-category="reveng"
+              aria-label="Post: Anti-Debug Techniques">
+              <div class="blog-post-card__meta">
+                <span class="blog-post-card__date">2024-07-08</span>
+                <span class="tag tag--cyan">Reverse Eng.</span>
+                <span class="tag tag--amber">Anti-Analysis</span>
+              </div>
+              <a href="#" class="blog-post-card__title">
+                Catalogue of Anti-Debug Techniques: From IsDebuggerPresent
+                to Hypervisor Detection
+              </a>
+              <p class="blog-post-card__excerpt">
+                A comprehensive enumeration of anti-debugging and
+                anti-analysis techniques I've encountered across 50+
+                malware samples, from trivial Windows API checks to
+                sophisticated timing side-channels, hardware breakpoint
+                detection via DR registers, and CPUID-based hypervisor
+                fingerprinting.
+              </p>
+              <div class="blog-post-card__footer">
+                <span class="blog-post-card__read-time">20 min read</span>
+                <a href="#" class="btn btn--sm btn--ghost">
+                  Read Post →
+                </a>
+              </div>
+            </article>
+
+            <!-- No results -->
+            <div id="blog-no-results"
+              style="display:none;text-align:center;
+                padding:4rem 0;font-family:var(--font-mono);
+                color:var(--clr-text-muted);">
+              <div style="font-size:2rem;margin-bottom:.75rem;">
+                [ 0 results ]
+              </div>
+              <div>No posts match your search.</div>
+            </div>
+
+          </div>
+          <!-- End posts list -->
+
+          <!-- ── Sidebar ── -->
+          <aside aria-label="Blog sidebar">
+
+            <!-- About widget -->
+            <div class="blog-sidebar__widget">
+              <div class="blog-sidebar__title">// About</div>
+              <p style="font-size:0.85rem;color:var(--clr-text-secondary);
+                margin-bottom:1rem;max-width:none;line-height:1.7;">
+                Technical write-ups from a 19-year-old security researcher
+                in Shenzhen. Focused on crypto, pwn, and rev.
+              </p>
+              <a href="about.html" class="btn btn--sm btn--ghost"
+                style="width:100%;justify-content:center;">
+                About Me
+              </a>
+            </div>
+
+            <!-- Recent posts widget -->
+            <div class="blog-sidebar__widget">
+              <div class="blog-sidebar__title">// Recent Posts</div>
+              <ul class="sidebar-recent" style="padding:0;">
+                <li>
+                  <a href="posts/reverse-engineering-basics.html">
+                    Unpacking Packed Binaries: UPX and Custom Packers
+                  </a>
+                  <div style="font-family:var(--font-mono);font-size:0.68rem;
+                    color:var(--clr-text-muted);margin-top:0.2rem;">
+                    2024-11-18
+                  </div>
+                </li>
+                <li>
+                  <a href="posts/cryptography-modern.html">
+                    Breaking Weak RSA: Small Exponent Attacks
+                  </a>
+                  <div style="font-family:var(--font-mono);font-size:0.68rem;
+                    color:var(--clr-text-muted);margin-top:0.2rem;">
+                    2024-10-30
+                  </div>
+                </li>
+                <li>
+                  <a href="#">
+                    Heap Feng Shui on glibc 2.35
+                  </a>
+                  <div style="font-family:var(--font-mono);font-size:0.68rem;
+                    color:var(--clr-text-muted);margin-top:0.2rem;">
+                    2024-10-05
+                  </div>
+                </li>
+                <li>
+                  <a href="#">
+                    DEF CON CTF 32 Qualifier Write-up
+                  </a>
+                  <div style="font-family:var(--font-mono);font-size:0.68rem;
+                    color:var(--clr-text-muted);margin-top:0.2rem;">
+                    2024-09-14
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Tags widget -->
+            <div class="blog-sidebar__widget">
+              <div class="blog-sidebar__title">// Tags</div>
+              <div class="sidebar-tag-cloud">
+                <span class="tag tag--green">Cryptography</span>
+                <span class="tag tag--cyan">RSA</span>
+                <span class="tag tag--amber">CTF</span>
+                <span class="tag tag--red">Exploitation</span>
+                <span class="tag tag--green">Rev-Eng</span>
+                <span class="tag tag--cyan">
+                  <span class="tag tag--cyan">Heap</span>
+                <span class="tag tag--green">ROP</span>
+                <span class="tag tag--amber">Malware</span>
+                <span class="tag tag--cyan">TLS</span>
+                <span class="tag tag--green">pwntools</span>
+                <span class="tag tag--red">Pwn</span>
+                <span class="tag tag--amber">Ghidra</span>
+                <span class="tag tag--cyan">GDB</span>
+                <span class="tag tag--green">Python</span>
+                <span class="tag tag--amber">Network</span>
+                <span class="tag tag--red">Anti-Debug</span>
+                <span class="tag tag--cyan">Assembly</span>
+                <span class="tag tag--green">IoT</span>
+              </div>
+            </div>
+
+            <!-- Stats widget -->
+            <div class="blog-sidebar__widget">
+              <div class="blog-sidebar__title">// Stats</div>
+              <div style="display:flex;flex-direction:column;gap:1rem;">
+
+                <div style="display:flex;align-items:center;
+                  justify-content:space-between;">
+                  <span style="font-family:var(--font-mono);font-size:0.78rem;
+                    color:var(--clr-text-muted);">
+                    Total Posts
+                  </span>
+                  <span style="font-family:var(--font-mono);font-size:0.9rem;
+                    color:var(--clr-green);font-weight:600;">
+                    06
+                  </span>
+                </div>
+
+                <div style="display:flex;align-items:center;
+                  justify-content:space-between;">
+                  <span style="font-family:var(--font-mono);font-size:0.78rem;
+                    color:var(--clr-text-muted);">
+                    Categories
+                  </span>
+                  <span style="font-family:var(--font-mono);font-size:0.9rem;
+                    color:var(--clr-cyan);font-weight:600;">
+                    05
+                  </span>
+                </div>
+
+                <div style="display:flex;align-items:center;
+                  justify-content:space-between;">
+                  <span style="font-family:var(--font-mono);font-size:0.78rem;
+                    color:var(--clr-text-muted);">
+                    Avg. Read Time
+                  </span>
+                  <span style="font-family:var(--font-mono);font-size:0.9rem;
+                    color:var(--clr-green);font-weight:600;">
+                    14 min
+                  </span>
+                </div>
+
+                <div style="display:flex;align-items:center;
+                  justify-content:space-between;">
+                  <span style="font-family:var(--font-mono);font-size:0.78rem;
+                    color:var(--clr-text-muted);">
+                    Last Updated
+                  </span>
+                  <span style="font-family:var(--font-mono);font-size:0.9rem;
+                    color:var(--clr-green);font-weight:600;">
+                    Nov 2024
+                  </span>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- RSS / Subscribe widget -->
+            <div class="blog-sidebar__widget"
+              style="background:var(--clr-green-glow);
+                border-color:var(--clr-green-dim);">
+              <div class="blog-sidebar__title"
+                style="color:var(--clr-green);">
+                // Subscribe
+              </div>
+              <p style="font-size:0.82rem;color:var(--clr-text-secondary);
+                margin-bottom:1rem;max-width:none;line-height:1.7;">
+                Get notified when new research drops.
+                No spam — pure signal.
+              </p>
+              <form
+                onsubmit="handleSubscribe(event)"
+                style="display:flex;flex-direction:column;gap:0.6rem;">
+                <input
+                  type="email"
+                  placeholder="operator@domain.com"
+                  aria-label="Email address for subscription"
+                  style="background:var(--clr-bg);
+                    border:1px solid var(--clr-green-dim);
+                    border-radius:var(--radius-sm);
+                    padding:0.6rem 0.9rem;
+                    font-family:var(--font-mono);
+                    font-size:0.78rem;
+                    color:var(--clr-text-primary);
+                    outline:none;
+                    transition:border-color 0.2s ease;"
+                  onfocus="this.style.borderColor='var(--clr-green)'"
+                  onblur="this.style.borderColor='var(--clr-green-dim)'"
+                />
+                <button type="submit" class="btn btn--primary btn--sm"
+                  style="width:100%;justify-content:center;">
+                  Subscribe
+                </button>
+              </form>
+              <div id="subscribe-msg"
+                style="display:none;font-family:var(--font-mono);
+                  font-size:0.75rem;color:var(--clr-green);
+                  margin-top:0.6rem;text-align:center;">
+                ✓ Subscribed successfully.
+              </div>
+            </div>
+
+            <!-- PGP widget -->
+            <div class="blog-sidebar__widget">
+              <div class="blog-sidebar__title">// PGP Key</div>
+              <div style="font-family:var(--font-mono);font-size:0.72rem;
+                color:var(--clr-text-muted);line-height:1.6;
+                word-break:break-all;">
+                <div style="color:var(--clr-green);margin-bottom:0.4rem;">
+                  Fingerprint:
+                </div>
+                <div style="color:var(--clr-text-secondary);">
+                  DEAD BEEF C0FF EE42<br/>
+                  F00D CAFE BABE D00D<br/>
+                  1337 4242 0000 FFFF
+                </div>
+                <a href="#"
+                  style="display:inline-block;margin-top:0.75rem;
+                    font-size:0.72rem;color:var(--clr-cyan);">
+                  Download Public Key →
+                </a>
+              </div>
+            </div>
+
+          </aside>
+          <!-- End sidebar -->
+
+        </div>
+        <!-- End blog-layout -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <div style="font-family:var(--font-mono);color:var(--clr-green);
+            font-size:1rem;margin-bottom:0.4rem;">
+            <span style="color:var(--clr-cyan)">[</span>
+            ZeroDay
+            <span style="color:var(--clr-cyan)">]</span>
+          </div>
+          <p style="font-family:var(--font-mono);font-size:0.75rem;
+            color:var(--clr-text-muted);max-width:none;">
+            Security Researcher · Shenzhen, China
+          </p>
+        </div>
+        <nav class="footer__links" aria-label="Footer navigation">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="projects.html">Projects</a>
+          <a href="index.html">Blog</a>
+          <a href="https://github.com" target="_blank" rel="noopener">
+            GitHub
+          </a>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        © 2024 ZeroDay · MIT License · Shenzhen, China
+      </div>
+    </div>
+  </footer>
+
+  <script src="matrix.js"></script>
+  <script src="glitch.js"></script>
+  <script src="core.js"></script>
+
+  <script>
+    /* ── Blog search + category filter ── */
+    (function () {
+      const searchInput = document.getElementById('blog-search');
+      const posts       = document.querySelectorAll('.blog-post-card');
+      const noResults   = document.getElementById('blog-no-results');
+      const filterBtns  = document.querySelectorAll('.filter-btn');
+      let   activeFilter = 'all';
+
+      function applyFilters() {
+        const q       = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        let   visible = 0;
+
+        posts.forEach(post => {
+          const text     = post.textContent.toLowerCase();
+          const category = post.dataset.category || '';
+          const matchQ   = !q || text.includes(q);
+          const matchCat = activeFilter === 'all' || category === activeFilter;
+
+          if (matchQ && matchCat) {
+            post.style.display = '';
+            visible++;
+          } else {
+            post.style.display = 'none';
+          }
+        });
+
+        if (noResults) {
+          noResults.style.display = visible === 0 ? 'block' : 'none';
+        }
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener('input', applyFilters);
+      }
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
+          activeFilter = btn.dataset.filter;
+          applyFilters();
+        });
+      });
+    })();
+
+    /* ── Subscribe form ── */
+    function handleSubscribe(e) {
+      e.preventDefault();
+      const msg = document.getElementById('subscribe-msg');
+      if (msg) {
+        msg.style.display = 'block';
+        e.target.reset();
+      }
+    }
+  </script>
+
+</body>
+</html>

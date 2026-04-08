@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="About ZeroDay — 19-year-old cybersecurity researcher based in Shenzhen,
+    specialising in cryptography and reverse engineering." />
+  <title>About | ZeroDay</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="animations.css" />
+  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+
+<body class="scanlines">
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="bracket">[</span>ZeroDay<span class="bracket">]</span>
+        <span class="cursor-blink" aria-hidden="true"></span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html">~/home</a></li>
+        <li><a href="about.html" class="active">~/about</a></li>
+        <li><a href="projects.html">~/projects</a></li>
+        <li><a href="blog/index.html">~/blog</a></li>
+      </ul>
+      <button class="nav__hamburger" aria-label="Toggle mobile menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav__mobile" role="menu">
+    <a href="index.html">~/home</a>
+    <a href="about.html">~/about</a>
+    <a href="projects.html">~/projects</a>
+    <a href="blog/index.html">~/blog</a>
+  </div>
+
+  <main class="page-content">
+
+    <!-- ══════════════════════════════════════
+         ABOUT HERO
+    ══════════════════════════════════════ -->
+    <section class="about-hero section" aria-label="About me introduction">
+      <div class="container">
+        <div class="about-hero__grid">
+
+          <!-- Avatar column -->
+          <div class="about-hero__avatar" data-fade>
+            <div class="about-hero__avatar-ring">
+              <div class="about-avatar-inner">
+                <!-- ASCII-art style avatar SVG -->
+                <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"
+                  aria-label="Abstract avatar" role="img">
+                  <defs>
+                    <radialGradient id="av-grad" cx="50%" cy="40%" r="60%">
+                      <stop offset="0%"   stop-color="#00ff41" stop-opacity="0.3"/>
+                      <stop offset="100%" stop-color="#00ffff" stop-opacity="0.05"/>
+                    </radialGradient>
+                  </defs>
+                  <!-- Head -->
+                  <circle cx="60" cy="42" r="28"
+                    fill="url(#av-grad)" stroke="#00ff41" stroke-width="1"/>
+                  <!-- Face details -->
+                  <rect x="46" y="36" width="8"  height="5" rx="1"
+                    fill="#00ff41" opacity="0.7"/>
+                  <rect x="66" y="36" width="8"  height="5" rx="1"
+                    fill="#00ff41" opacity="0.7"/>
+                  <path d="M50 52 Q60 58 70 52"
+                    stroke="#00ff41" stroke-width="1.5"
+                    fill="none" opacity="0.7"/>
+                  <!-- Circuit lines on face -->
+                  <line x1="32" y1="42" x2="44" y2="42"
+                    stroke="#00ff4140" stroke-width="0.8"/>
+                  <line x1="76" y1="42" x2="88" y2="42"
+                    stroke="#00ff4140" stroke-width="0.8"/>
+                  <!-- Body -->
+                  <path d="M32 78 Q30 90 30 110 L90 110 Q90 90 88 78 Q75 68 60 68 Q45 68 32 78Z"
+                    fill="url(#av-grad)" stroke="#00ff41" stroke-width="1" opacity="0.8"/>
+                  <!-- Collar/tech detail -->
+                  <rect x="50" y="70" width="20" height="6" rx="2"
+                    fill="#00ffff" opacity="0.3"/>
+                  <circle cx="60" cy="73" r="2"
+                    fill="#00ffff" opacity="0.6"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Floating badges -->
+            <div class="about-hero__badges" aria-hidden="true">
+              <span class="about-badge about-badge--1">🔐 Crypto</span>
+              <span class="about-badge about-badge--2">⚙️ Rev-Eng</span>
+              <span class="about-badge about-badge--3">🏁 CTF Player</span>
+              <span class="about-badge about-badge--4">📍 Shenzhen</span>
+            </div>
+          </div>
+
+          <!-- Content column -->
+          <div class="about-hero__content" data-fade data-delay="150">
+            <div class="eyebrow">whoami</div>
+
+            <h1 class="about-hero__name glitch-text" data-text="ZeroDay">
+              Zero<span style="color:var(--clr-green)">Day</span>
+            </h1>
+
+            <p class="about-hero__title">
+              <span data-typewriter="Security Researcher|Reverse Engineer|Cryptographer|CTF Player"
+                data-tw-speed="65"></span>
+            </p>
+
+            <p class="about-hero__bio">
+              Hey — I'm a 19-year-old self-taught cybersecurity researcher
+              based in Shenzhen, China. My obsession started at 14 when I
+              first cracked a simple Caesar cipher, and it's never stopped.
+            </p>
+            <p class="about-hero__bio">
+              I spend most of my time in disassemblers, debuggers, and
+              cryptographic proof sketches. I participate in CTF competitions
+              regularly, focus on binary exploitation and crypto challenges,
+              and publish detailed write-ups on everything I learn.
+            </p>
+
+            <div class="about-quick-facts">
+              <div class="fact-item">
+                <span class="fact-item__key">Age</span>
+                <span class="fact-item__val">19 years</span>
+              </div>
+              <div class="fact-item">
+                <span class="fact-item__key">Location</span>
+                <span class="fact-item__val">Shenzhen, CN</span>
+              </div>
+              <div class="fact-item">
+                <span class="fact-item__key">Focus</span>
+                <span class="fact-item__val">Crypto / RevEng</span>
+              </div>
+              <div class="fact-item">
+                <span class="fact-item__key">Status</span>
+                <span class="fact-item__val" style="color:var(--clr-green);">
+                  <span class="status-badge">
+                    <span class="status-badge__dot"></span>
+                    Open
+                  </span>
+                </span>
+              </div>
+              <div class="fact-item">
+                <span class="fact-item__key">Shell</span>
+                <span class="fact-item__val">zsh / fish</span>
+              </div>
+              <div class="fact-item">
+                <span class="fact-item__key">Editor</span>
+                <span class="fact-item__val">Neovim</span>
+              </div>
+              <div class="fact-item">
+                <span class="fact-item__key">OS</span>
+                <span class="fact-item__val">Arch / Kali</span>
+              </div>
+              <div class="fact-item">
+                <span class="fact-item__key">CTF Rank</span>
+                <span class="fact-item__val">Top 5%</span>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+              <a href="mailto:zero@zeroday.dev" class="btn btn--primary">
+                Contact Me
+              </a>
+              <a href="#" class="btn btn--secondary"
+                download aria-label="Download CV">
+                Download CV
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SKILLS SECTION
+    ══════════════════════════════════════ -->
+    <section class="skills-section section" aria-label="Skills and expertise">
+      <div class="container">
+
+        <div class="section-header text-center" data-fade>
+          <div class="section-header__pre"
+            style="justify-content:center;">// skill_matrix</div>
+          <h2 class="section-header__title">Technical Arsenal</h2>
+        </div>
+
+        <div class="skills-grid">
+
+          <!-- Cryptography -->
+          <div class="skills-category" data-fade>
+            <h3 class="skills-category__title">Cryptography</h3>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">Symmetric Ciphers (AES, ChaCha20)</span>
+                <span class="skill-bar__pct">90%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="90"></div>
+              </div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">Public Key Cryptography (RSA, ECC)</span>
+                <span class="skill-bar__pct">85%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="85"></div>
+              </div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">Hash Functions & MACs</span>
+                <span class="skill-bar__pct">88%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="88"></div>
+              </div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">Protocol Analysis (TLS, SSH)</span>
+                <span class="skill-bar__pct">75%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="75"></div>
+              </div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">Side-Channel Attacks</span>
+                <span class="skill-bar__pct">65%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="65"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reverse Engineering -->
+          <div class="skills-category" data-fade data-delay="100">
+            <h3 class="skills-category__title">Reverse Engineering</h3>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">x86/x64 Assembly</span>
+                <span class="skill-bar__pct">88%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="88"></div>
+              </div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">Ghidra / IDA Pro</span>
+                <span class="skill-bar__pct">85%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="85"></div>
+              </div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">Dynamic Analysis (GDB, x64dbg)</span>
+                <span class="skill-bar__pct">82%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="82"></div>
+              </div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">Malware Analysis</span>
+                <span class="skill-bar__pct">70%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="70"></div>
+              </div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">ARM / RISC-V</span>
+                <span class="skill-bar__pct">60%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="60"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Programming -->
+          <div class="skills-category" data-fade data-delay="200">
+            <h3 class="skills-category__title">Programming</h3>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">Python</span>
+                <span class="skill-bar__pct">95%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="95"></div>
+              </div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">C / C++</span>
+                <span class="skill-bar__pct">80%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="80"></div>
+              </div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">Rust</span>
+                <span class="skill-bar__pct">60%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="60"></div>
+              </div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">Bash / Shell Scripting</span>
+                <span class="skill-bar__pct">85%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="85"></div>
+              </div>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar__header">
+                <span class="skill-bar__name">JavaScript / Web</span>
+                <span class="skill-bar__pct">65%</span>
+              </div>
+              <div class="skill-bar__track">
+                <div class="skill-bar__fill" data-pct="65"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tools & Platforms -->
+          <div class="skills-category" data-fade data-delay="300">
+            <h3 class="skills-category__title">Tools & Platforms</h3>
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:0.5rem;">
+              <span class="tag tag--green">Kali Linux</span>
+              <span class="tag tag--cyan">Ghidra</span>
+              <span class="tag tag--green">IDA Pro</span>
+              <span class="tag tag--amber">Burp Suite</span>
+              <span class="tag tag--cyan">Wireshark</span>
+              <span class="tag tag--green">pwntools</span>
+              <span class="tag tag--cyan">Metasploit</span>
+              <span class="tag tag--green">GDB/peda</span>
+              <span class="tag tag--amber">Docker</span>
+              <span class="tag tag--cyan">QEMU</span>
+              <span class="tag tag--green">radare2</span>
+              <span class="tag tag--cyan">angr</span>
+              <span class="tag tag--amber">frida</span>
+              <span class="tag tag--green">z3-solver</span>
+              <span class="tag tag--cyan">SageMath</span>
+              <span class="tag tag--green">OpenSSL</span>
+              <span class="tag tag--amber">Volatility</span>
+              <span class="tag tag--cyan">Hashcat</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         JOURNEY / TIMELINE
+    ══════════════════════════════════════ -->
+    <section class="section" aria-label="Career and learning timeline">
+      <div class="container">
+        <div class="grid-2" style="gap:4rem; align-items:start;">
+
+          <!-- Timeline -->
+          <div data-fade>
+            <div class="section-header">
+              <div class="section-header__pre">// timeline</div>
+              <h2 class="section-header__title">
+                The <span class="text-green">Journey</span>
+              </h2>
+            </div>
+
+            <div class="timeline">
+
+              <div class="timeline__item">
+                <div class="timeline__date">2024 — Present</div>
+                <h3 class="timeline__title">Independent Security Research</h3>
+                <div class="timeline__subtitle">Self-directed · Shenzhen</div>
+                <p class="timeline__desc">
+                  Conducting original research into cryptographic weaknesses
+                  in embedded systems. Discovered 3 CVEs in IoT firmware.
+                  Actively competing in international CTF competitions.
+                </p>
+              </div>
+
+              <div class="timeline__item">
+                <div class="timeline__date">2023</div>
+                <h3 class="timeline__title">First CVE Disclosure</h3>
+                <div class="timeline__subtitle">Responsible Disclosure</div>
+                <p class="timeline__desc">
+                  Identified and responsibly disclosed a buffer overflow
+                  vulnerability in a widely-used open-source VPN client.
+                  Coordinated fix with maintainers over 90 days.
+                </p>
+              </div>
+
+              <div class="timeline__item">
+                <div class="timeline__date">2022 — 2023</div>
+                <h3 class="timeline__title">Deep CTF Immersion</h3>
+                <div class="timeline__subtitle">Team: ByteBreakers</div>
+                <p class="timeline__desc">
+                  Joined and co-founded the ByteBreakers CTF team. Competed
+                  in 30+ competitions including DEF CON CTF qualifiers,
+                  PlaidCTF, and Google CTF. Specialised in crypto and pwn.
+                </p>
+              </div>
+
+              <div class="timeline__item">
+                <div class="timeline__date">2021 — 2022</div>
+                <h3 class="timeline__title">Binary Exploitation & Assembly</h3>
+                <div class="timeline__subtitle">Self-Study</div>
+                <p class="timeline__desc">
+                  Completed pwn.college, exploit.education, and ROP Emporium.
+                  Learned x86-64 assembly, stack/heap exploitation, and
+                  return-oriented programming techniques.
+                </p>
+              </div>
+
+              <div class="timeline__item">
+                <div class="timeline__date">2020</div>
+                <h3 class="timeline__title">The Rabbit Hole Begins</h3>
+                <div class="timeline__subtitle">Age 15 · Shenzhen</div>
+                <p class="timeline__desc">
+                  Discovered cryptography through a school maths competition.
+                  Spent 6 months working through Christof Paar's lectures
+                  and implementing classical ciphers from scratch in Python.
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right column: Certs + Setup -->
+          <div>
+
+            <!-- Certifications -->
+            <div data-fade data-delay="150" style="margin-bottom:3rem;">
+              <div class="section-header">
+                <div class="section-header__pre">// certifications</div>
+                <h2 class="section-header__title" style="font-size:1.6rem;">
+                  Certs & <span class="text-cyan">Credentials</span>
+                </h2>
+              </div>
+
+              <div style="display:flex; flex-direction:column; gap:1rem;">
+
+                <div class="card" style="padding:1.25rem;">
+                  <div style="display:flex; align-items:center;
+                    justify-content:space-between; gap:1rem;">
+                    <div>
+                      <div style="font-family:var(--font-mono); font-size:0.72rem;
+                        color:var(--clr-green); margin-bottom:0.25rem;">
+                        OFFENSIVE SECURITY
+                      </div>
+                      <div style="font-weight:600; font-size:0.95rem;">
+                        OSCP — Offensive Security Certified Professional
+                      </div>
+                    </div>
+                    <span class="tag tag--green">2024</span>
+                  </div>
+                </div>
+
+                <div class="card" style="padding:1.25rem;">
+                  <div style="display:flex; align-items:center;
+                    justify-content:space-between; gap:1rem;">
+                    <div>
+                      <div style="font-family:var(--font-mono); font-size:0.72rem;
+                        color:var(--clr-cyan); margin-bottom:0.25rem;">
+                        HACK THE BOX
+                      </div>
+                      <div style="font-weight:600; font-size:0.95rem;">
+                        HTB Pro Hacker — Rank Top 500 Global
+                      </div>
+                    </div>
+                    <span class="tag tag--cyan">2023</span>
+                  </div>
+                </div>
+
+                <div class="card" style="padding:1.25rem;">
+                  <div style="display:flex; align-items:center;
+                    justify-content:space-between; gap:1rem;">
+                    <div>
+                      <div style="font-family:var(--font-mono); font-size:0.72rem;
+                        color:var(--clr-amber); margin-bottom:0.25rem;">
+                        CRYPTOHACK
+                      </div>
+                      <div style="font-weight:600; font-size:0.95rem;">
+                        CryptoHack — Top 100 Global Leaderboard
+                      </div>
+                    </div>
+                    <span class="tag tag--amber">2023</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Setup / Terminal -->
+            <div data-fade data-delay="250">
+              <div class="section-header">
+                <div class="section-header__pre">// my_setup</div>
+                <h2 class="section-header__title" style="font-size:1.6rem;">
+                  Daily <span class="text-green">Setup</span>
+                </h2>
+              </div>
+
+              <div class="terminal">
+                <div class="terminal__titlebar">
+                  <span class="terminal__dot terminal__dot--red"></span>
+                  <span class="terminal__dot terminal__dot--amber"></span>
+                  <span class="terminal__dot terminal__dot--green"></span>
+                  <span class="terminal__filename">neofetch</span>
+                </div>
+                <div class="terminal__body" style="font-size:0.78rem; line-height:2;">
+                  <div class="terminal__line">
+                    <span style="color:var(--clr-cyan);">OS:</span>
+                    <span class="terminal__output">Arch Linux x86_64</span>
+                  </div>
+                  <div class="terminal__line">
+                    <span style="color:var(--clr-cyan);">Kernel:</span>
+                    <span class="terminal__output">6.6.8-arch1-1</span>
+                  </div>
+                  <div class="terminal__line">
+                    <span style="color:var(--clr-cyan);">Shell:</span>
+                    <span class="terminal__output">zsh 5.9 + Oh-My-Zsh</span>
+                  </div>
+                  <div class="terminal__line">
+                    <span style="color:var(--clr-cyan);">WM:</span>
+                    <span class="terminal__output">i3-gaps</span>
+                  </div>
+                  <div class="terminal__line">
+                    <span style="color:var(--clr-cyan);">Editor:</span>
+                    <span class="terminal__output">Neovim (LazyVim)</span>
+                  </div>
+                  <div class="terminal__line">
+                    <span style="color:var(--clr-cyan);">Terminal:</span>
+                    <span class="terminal__output">Alacritty</span>
+                  </div>
+                  <div class="terminal__line">
+                    <span style="color:var(--clr-cyan);">CPU:</span>
+                    <span class="terminal__output">Ryzen 9 7950X (32T)</span>
+                  </div>
+                  <div class="terminal__line">
+                    <span style="color:var(--clr-cyan);">RAM:</span>
+                    <span class="terminal__output">64GB DDR5</span>
+                  </div>
+                  <div class="terminal__line">
+                    <span style="color:var(--clr-cyan);">GPU:</span>
+                    <span class="terminal__output">RTX 4080 (hashcat!)</span>
+                  </div>
+                  <div class="terminal__line">
+                    <span style="color:var(--clr-cyan);">Debugger:</span>
+                    <span class="terminal__output">GDB + pwndbg</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <div style="font-family:var(--font-mono); color:var(--clr-green); font-size:1rem;">
+            <span style="color:var(--clr-cyan)">[</span>ZeroDay<span style="color:var(--clr-cyan)">]</span>
+          </div>
+          <p style="font-family:var(--font-mono); font-size:0.75rem;
+            color:var(--clr-text-muted); max-width:none; margin-top:0.4rem;">
+            Security Researcher · Shenzhen, China
+          </p>
+        </div>
+        <nav class="footer__links" aria-label="Footer navigation">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="projects.html">Projects</a>
+          <a href="blog/index.html">Blog</a>
+          <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        © 2024 ZeroDay · Shenzhen, China
+      </div>
+    </div>
+  </footer>
+
+  <script src="matrix.js"></script>
+  <script src="typewriter.js"></script>
+  <script src="glitch.js"></script>
+  <script src="core.js"></script>
+</body>
+</html>

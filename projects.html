@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Projects by ZeroDay — security tools, CTF solutions,
+    cryptographic research, and reverse engineering frameworks." />
+  <meta property="og:title"       content="Projects | ZeroDay" />
+  <meta property="og:description" content="Security tools, exploits, and research by ZeroDay." />
+  <meta name="theme-color"        content="#00ff41" />
+  <title>Projects | ZeroDay</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="animations.css" />
+  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+
+<body class="scanlines">
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="bracket">[</span>ZeroDay<span class="bracket">]</span>
+        <span class="cursor-blink" aria-hidden="true"></span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html">~/home</a></li>
+        <li><a href="about.html">~/about</a></li>
+        <li><a href="projects.html" class="active">~/projects</a></li>
+        <li><a href="blog/index.html">~/blog</a></li>
+      </ul>
+      <button class="nav__hamburger" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="nav__mobile" role="menu">
+    <a href="index.html"      role="menuitem">~/home</a>
+    <a href="about.html"      role="menuitem">~/about</a>
+    <a href="projects.html"   role="menuitem">~/projects</a>
+    <a href="blog/index.html" role="menuitem">~/blog</a>
+  </div>
+
+  <main class="page-content">
+
+    <!-- ══════════════════════════════════════
+         HERO
+    ══════════════════════════════════════ -->
+    <section class="projects-hero" aria-label="Projects introduction">
+      <div class="container">
+
+        <!-- Grid background accent -->
+        <div style="position:absolute;inset:0;
+          background-image:
+            linear-gradient(rgba(0,255,65,0.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,255,65,0.025) 1px, transparent 1px);
+          background-size:60px 60px;
+          pointer-events:none;" aria-hidden="true"></div>
+
+        <div style="position:relative;z-index:1;">
+          <div style="font-family:var(--font-mono);font-size:0.78rem;
+            color:var(--clr-green);letter-spacing:4px;
+            text-transform:uppercase;margin-bottom:1rem;
+            display:flex;align-items:center;justify-content:center;gap:1rem;"
+            data-fade>
+            <span style="width:30px;height:1px;background:var(--clr-green);
+              display:inline-block;"></span>
+            // project_archive.db
+            <span style="width:30px;height:1px;background:var(--clr-green);
+              display:inline-block;"></span>
+          </div>
+
+          <h1 class="glitch-text" data-text="Projects &amp; Research"
+            style="text-align:center;margin-bottom:1.25rem;"
+            data-fade data-delay="100">
+            Projects &amp; <span class="text-green">Research</span>
+          </h1>
+
+          <p style="max-width:58ch;margin:0 auto 2.5rem;
+            color:var(--clr-text-secondary);text-align:center;
+            font-size:1rem;line-height:1.8;"
+            data-fade data-delay="200">
+            Security tools, CTF exploit scripts, cryptographic research,
+            and reverse engineering frameworks. Everything is open-source
+            and documented.
+          </p>
+
+          <!-- Quick stats row -->
+          <div style="display:flex;gap:2rem;justify-content:center;
+            flex-wrap:wrap;margin-bottom:0;" data-fade data-delay="300">
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-display);font-size:2rem;
+                font-weight:900;color:var(--clr-green);
+                animation:pulse-text-glow 3s ease-in-out infinite;">
+                18
+              </div>
+              <div style="font-family:var(--font-mono);font-size:0.7rem;
+                color:var(--clr-text-muted);letter-spacing:2px;
+                text-transform:uppercase;">
+                Repositories
+              </div>
+            </div>
+            <div style="width:1px;background:var(--clr-border);
+              align-self:stretch;"></div>
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-display);font-size:2rem;
+                font-weight:900;color:var(--clr-cyan);
+                animation:pulse-text-glow 3s ease-in-out 0.5s infinite;">
+                3
+              </div>
+              <div style="font-family:var(--font-mono);font-size:0.7rem;
+                color:var(--clr-text-muted);letter-spacing:2px;
+                text-transform:uppercase;">
+                CVEs Filed
+              </div>
+            </div>
+            <div style="width:1px;background:var(--clr-border);
+              align-self:stretch;"></div>
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-display);font-size:2rem;
+                font-weight:900;color:var(--clr-green);
+                animation:pulse-text-glow 3s ease-in-out 1s infinite;">
+                12K+
+              </div>
+              <div style="font-family:var(--font-mono);font-size:0.7rem;
+                color:var(--clr-text-muted);letter-spacing:2px;
+                text-transform:uppercase;">
+                Lines of Code
+              </div>
+            </div>
+            <div style="width:1px;background:var(--clr-border);
+              align-self:stretch;"></div>
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-display);font-size:2rem;
+                font-weight:900;color:var(--clr-cyan);
+                animation:pulse-text-glow 3s ease-in-out 1.5s infinite;">
+                50+
+              </div>
+              <div style="font-family:var(--font-mono);font-size:0.7rem;
+                color:var(--clr-text-muted);letter-spacing:2px;
+                text-transform:uppercase;">
+                CTF Solves
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         FILTER BAR
+    ══════════════════════════════════════ -->
+    <div style="background:var(--clr-surface);
+      border-top:1px solid var(--clr-border);
+      border-bottom:1px solid var(--clr-border);
+      position:sticky;top:var(--nav-height);z-index:100;
+      backdrop-filter:blur(20px);">
+      <div class="container"
+        style="padding-block:1rem;">
+        <div class="projects-filter"
+          role="group" aria-label="Filter projects by category"
+          style="margin-bottom:0;">
+          <button class="filter-btn active" data-filter="all"
+            aria-pressed="true">
+            All
+          </button>
+          <button class="filter-btn" data-filter="crypto"
+            aria-pressed="false">
+            Cryptography
+          </button>
+          <button class="filter-btn" data-filter="reveng"
+            aria-pressed="false">
+            Reverse Eng.
+          </button>
+          <button class="filter-btn" data-filter="exploit"
+            aria-pressed="false">
+            Exploitation
+          </button>
+          <button class="filter-btn" data-filter="network"
+            aria-pressed="false">
+            Network
+          </button>
+          <button class="filter-btn" data-filter="tool"
+            aria-pressed="false">
+            Tools
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PROJECTS GRID
+    ══════════════════════════════════════ -->
+    <section class="section--sm" aria-label="All projects">
+      <div class="container">
+        <div class="grid-3 stagger-children" id="projects-grid">
+
+          <!-- ══ FEATURED: CryptoShell ══ -->
+          <article class="card card--decorated"
+            data-category="crypto"
+            style="grid-column:1/-1;display:grid;
+              grid-template-columns:1fr 1fr;
+              gap:2.5rem;align-items:center;"
+            aria-label="Featured project: CryptoShell">
+
+            <!-- Left: info -->
+            <div>
+              <div class="card__label" style="margin-bottom:1rem;">
+                ⭐ Featured · Cryptography
+              </div>
+              <div class="project-card__header">
+                <div class="project-card__icon" aria-hidden="true">🔐</div>
+                <div class="project-card__links">
+                  <a href="https://github.com" target="_blank" rel="noopener"
+                    class="project-card__link" aria-label="View on GitHub">
+                    <svg width="14" height="14" viewBox="0 0 24 24"
+                      fill="currentColor" aria-hidden="true">
+                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795
+                        8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23
+                        -.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345
+                        -.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945
+                        -.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305
+                        3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335
+                        -5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54
+                        -1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405
+                        3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66
+                        1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+                        4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22
+                        0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02
+                        12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                  </a>
+                  <a href="#" class="project-card__link"
+                    aria-label="Open live demo">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8
+                        a2 2 0 0 1 2-2h6"/>
+                      <polyline points="15 3 21 3 21 9"/>
+                      <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <h2 class="card__title" style="font-size:1.5rem;margin-bottom:.75rem;">
+                CryptoShell
+              </h2>
+              <p class="card__desc" style="font-size:0.925rem;line-height:1.85;">
+                A terminal-based cryptographic Swiss Army knife supporting
+                AES-256-GCM, RSA-OAEP, X25519 key exchange, elliptic
+                curve arithmetic, hash cracking modes, padding oracle
+                detection, and custom classical cipher implementations.
+                Built for CTF players and security researchers who live
+                in the terminal.
+              </p>
+
+              <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.25rem;">
+                <span class="tag tag--green">Python 3.12</span>
+                <span class="tag tag--cyan">PyCryptodome</span>
+                <span class="tag tag--green">Click CLI</span>
+                <span class="tag tag--amber">SageMath</span>
+                <span class="tag tag--cyan">z3-solver</span>
+              </div>
+
+              <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.5rem;">
+                <a href="https://github.com" target="_blank" rel="noopener"
+                  class="btn btn--primary btn--sm">
+                  View on GitHub
+                </a>
+                <a href="blog/index.html" class="btn btn--ghost btn--sm">
+                  Read Write-up
+                </a>
+              </div>
+            </div>
+
+            <!-- Right: terminal preview -->
+            <div>
+              <div class="terminal">
+                <div class="terminal__titlebar">
+                  <span class="terminal__dot terminal__dot--red"></span>
+                  <span class="terminal__dot terminal__dot--amber"></span>
+                  <span class="terminal__dot terminal__dot--green"></span>
+                  <span class="terminal__filename">cryptoshell — demo</span>
+                </div>
+                <div class="terminal__body" style="font-size:0.78rem;line-height:1.9;">
+                  <div class="terminal__line">
+                    <span class="terminal__prompt">$</span>
+                    <span style="color:var(--clr-text-primary);"> crypto --help</span>
+                  </div>
+                  <div class="terminal__line terminal__output">
+                    CryptoShell v2.1.0 — ZeroDay
+                  </div>
+                  <div class="terminal__line terminal__output"
+                    style="color:var(--clr-text-muted);">
+                    Commands: encrypt · decrypt · crack · analyse · keygen
+                  </div>
+                  <br/>
+                  <div class="terminal__line">
+                    <span class="terminal__prompt">$</span>
+                    <span style="color:var(--clr-text-primary);">
+                      crypto crack --mode rsa --key weak_pub.pem
+                    </span>
+                  </div>
+                  <div class="terminal__line terminal__output">
+                    [*] Analysing key parameters...
+                  </div>
+                  <div class="terminal__line terminal__output"
+                    style="color:var(--clr-amber);">
+                    [!] Small public exponent detected (e=3)
+                  </div>
+                  <div class="terminal__line terminal__output"
+                    style="color:var(--clr-amber);">
+                    [!] Wiener's attack applicable — d is small
+                  </div>
+                  <div class="terminal__line terminal__output"
+                    style="color:var(--clr-green);">
+                    [+] Private key recovered in 0.32s
+                  </div>
+                  <div class="terminal__line terminal__output"
+                    style="color:var(--clr-green);">
+                    [+] Saved: weak_priv.pem
+                  </div>
+                  <div class="terminal__line">
+                    <span class="terminal__prompt">$</span>
+                    <span class="terminal__cursor"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </article>
+          <!-- End featured -->
+
+          <!-- ══ Project: BinaryLens ══ -->
+          <article class="card card--decorated"
+            data-category="reveng"
+            aria-label="Project: BinaryLens">
+            <div class="card__label">Reverse Engineering</div>
+            <div class="project-card__header">
+              <div class="project-card__icon" aria-hidden="true">🔬</div>
+              <div class="project-card__links">
+                <a href="https://github.com" target="_blank" rel="noopener"
+                  class="project-card__link" aria-label="GitHub">
+                  <svg width="13" height="13" viewBox="0 0 24 24"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795
+                      8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23
+                      -.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345
+                      -.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945
+                      -.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305
+                      3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335
+                      -5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54
+                      -1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405
+                      3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66
+                      1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+                      4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22
+                      0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02
+                      12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h3 class="card__title">BinaryLens</h3>
+            <p class="card__desc">
+              Automated binary analysis framework built on Ghidra's
+              headless analyser. Extracts function signatures, detects
+              common vulnerability patterns (buffer overflows, format
+              strings, use-after-free), and generates annotated HTML
+              reports with call graphs.
+            </p>
+            <div class="project-card__tags">
+              <span class="tag tag--green">Python</span>
+              <span class="tag tag--amber">Ghidra API</span>
+              <span class="tag tag--cyan">Rev-Eng</span>
+              <span class="tag tag--green">Java</span>
+            </div>
+          </article>
+
+          <!-- ══ Project: PacketPhantom ══ -->
+          <article class="card card--decorated"
+            data-category="network"
+            aria-label="Project: PacketPhantom">
+            <div class="card__label">Network Security</div>
+            <div class="project-card__header">
+              <div class="project-card__icon" aria-hidden="true">🌐</div>
+              <div class="project-card__links">
+                <a href="https://github.com" target="_blank" rel="noopener"
+                  class="project-card__link" aria-label="GitHub">
+                  <svg width="13" height="13" viewBox="0 0 24 24"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795
+                      8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23
+                      -.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345
+                      -.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945
+                      -.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305
+                      3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335
+                      -5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54
+                      -1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405
+                      3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66
+                      1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+                      4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22
+                      0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02
+                      12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h3 class="card__title">PacketPhantom</h3>
+            <p class="card__desc">
+              Passive network traffic analyser with deep packet inspection,
+              protocol fingerprinting, and anomaly detection. Identifies
+              C2 beacon patterns and exfiltration attempts using
+              a lightweight ML model trained on labelled PCAP datasets.
+            </p>
+            <div class="project-card__tags">
+              <span class="tag tag--green">C</span>
+              <span class="tag tag--cyan">libpcap</span>
+              <span class="tag tag--amber">ML / sklearn</span>
+              <span class="tag tag--green">Python</span>
+            </div>
+          </article>
+
+          <!-- ══ Project: HeapWizard ══ -->
+          <article class="card card--decorated"
+            data-category="exploit"
+            aria-label="Project: HeapWizard">
+            <div class="card__label">Binary Exploitation</div>
+            <div class="project-card__header">
+              <div class="project-card__icon" aria-hidden="true">🧙</div>
+              <div class="project-card__links">
+                <a href="https://github.com" target="_blank" rel="noopener"
+                  class="project-card__link" aria-label="GitHub">
+                  <svg width="13" height="13" viewBox="0 0 24 24"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795
+                      8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23
+                      -.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345
+                      -.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945
+                      -.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305
+                      3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335
+                      -5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54
+                      -1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405
+                      3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66
+                      1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+                      4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22
+                      0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02
+                      12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h3 class="card__title">HeapWizard</h3>
+            <p class="card__desc">
+              Visual glibc heap state debugger built as a GDB plugin.
+              Renders tcache bins, fastbins, and unsorted bin state
+              in a colour-coded terminal UI in real time during
+              exploit development. Supports glibc 2.27 through 2.38.
+            </p>
+            <div class="project-card__tags">
+              <span class="tag tag--green">Python</span>
+              <span class="tag tag--cyan">GDB API</span>
+              <span class="tag tag--red">Exploit Dev</span>
+              <span class="tag tag--amber">glibc</span>
+            </div>
+          </article>
+
+          <!-- ══ Project: ROPchain-gen ══ -->
+          <article class="card card--decorated"
+            data-category="exploit"
+            aria-label="Project: ROPchain-gen">
+            <div class="card__label">Exploitation</div>
+            <div class="project-card__header">
+              <div class="project-card__icon" aria-hidden="true">⛓️</div>
+              <div class="project-card__links">
+                <a href="https://github.com" target="_blank" rel="noopener"
+                  class="project-card__link" aria-label="GitHub">
+                  <svg width="13" height="13" viewBox="0 0 24 24"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795
+                      8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23
+                      -.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345
+                      -.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945
+                      -.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305
+                      3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335
+                      -5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54
+                      -1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405
+                      3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66
+                      1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+                      4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22
+                      0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02
+                      12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h3 class="card__title">ROPchain-gen</h3>
+            <p class="card__desc">
+              Automated ROP chain generator for x86-64 Linux ELF binaries.
+              Uses constraint solving via z3 to find minimal gadget chains
+              for arbitrary system call invocation. Integrates with
+              pwntools for one-click exploit delivery.
+            </p>
+            <div class="project-card__tags">
+              <span class="tag tag--green">Python</span>
+              <span class="tag tag--cyan">z3-solver</span>
+              <span class="tag tag--red">ROP</span>
+              <span class="tag tag--amber">pwntools</span>
+            </div>
+          </article>
+
+          <!-- ══ Project: TLSFingerprinter ══ -->
+          <article class="card card--decorated"
+            data-category="network"
+            aria-label="Project: TLSFingerprinter">
+            <div class="card__label">Network · Crypto</div>
+            <div class="project-card__header">
+              <div class="project-card__icon" aria-hidden="true">🔏</div>
+              <div class="project-card__links">
+                <a href="https://github.com" target="_blank" rel="noopener"
+                  class="project-card__link" aria-label="GitHub">
+                  <svg width="13" height="13" viewBox="0 0 24 24"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795
+                      8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23
+                      -.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345
+                      -.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945
+                      -.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305
+                      3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335
+                      -5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54
+                      -1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405
+                      3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66
+                      1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+                      4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22
+                      0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02
+                      12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h3 class="card__title">TLSFingerprinter</h3>
+            <p class="card__desc">
+              Passive JA3/JA3S and JA4 TLS fingerprinting tool that
+              identifies client applications and detects encrypted
+              malware C2 communications by their TLS handshake
+              characteristics — no decryption required.
+            </p>
+            <div class="project-card__tags">
+              <span class="tag tag--green">Rust</span>
+              <span class="tag tag--cyan">TLS 1.3</span>
+              <span class="tag tag--amber">JA3/JA4</span>
+              <span class="tag tag--green">PCAP</span>
+            </div>
+          </article>
+
+          <!-- ══ Project: FirmwareSieve ══ -->
+          <article class="card card--decorated"
+            data-category="reveng"
+            aria-label="Project: FirmwareSieve">
+            <div class="card__label">Firmware · IoT</div>
+            <div class="project-card__header">
+              <div class="project-card__icon" aria-hidden="true">📡</div>
+              <div class="project-card__links">
+                <a href="https://github.com" target="_blank" rel="noopener"
+                  class="project-card__link" aria-label="GitHub">
+                  <svg width="13" height="13" viewBox="0 0 24 24"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795
+                      8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23
+                      -.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345
+                      -.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945
+                      -.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305
+                      3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335
+                      -5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54
+                      -1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405
+                      3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66
+                      1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+                      4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22
+                      0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02
+                      12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h3 class="card__title">FirmwareSieve</h3>
+            <p class="card__desc">
+              Automated IoT firmware unpacking and static analysis pipeline.
+              Extracts filesystems from raw firmware blobs, identifies
+              hardcoded credentials, weak crypto usage, and vulnerable
+              library versions. Led to 2 CVE disclosures in 2024.
+            </p>
+            <div class="project-card__tags">
+              <span class="tag tag--green">Python</span>
+              <span class="tag tag--cyan">binwalk</span>
+              <span class="tag tag--amber">QEMU</span>
+              <span class="tag tag--red">CVE ×2</span>
+            </div>
+          </article>
+
+          <!-- ══ Project: ShadowProxy ══ -->
+          <article class="card card--decorated"
+            data-category="tool"
+            aria-label="Project: ShadowProxy">
+            <div class="card__label">Tools · Interception</div>
+            <div class="project-card__header">
+              <div class="project-card__icon" aria-hidden="true">👁️</div>
+              <div class="project-card__links">
+                <a href="https://github.com" target="_blank" rel="noopener"
+                  class="project-card__link" aria-label="GitHub">
+                  <svg width="13" height="13" viewBox="0 0 24 24"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795
+                      8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23
+                      -.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345
+                      -.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945
+                      -.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305
+                      3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335
+                      -5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54
+                      -1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405
+                      3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66
+                      1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+                      4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22
+                      0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02
+                      12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h3 class="card__title">ShadowProxy</h3>
+            <p class="card__desc">
+              Lightweight HTTPS interception proxy with SSL pinning bypass
+              capabilities for mobile app penetration testing. Supports
+              certificate injection, request tampering, response
+              modification, and automatic Frida hook generation.
+            </p>
+            <div class="project-card__tags">
+              <span class="tag tag--green">Python</span>
+              <span class="tag tag--cyan">mitmproxy</span>
+              <span class="tag tag--amber">Frida</span>
+              <span class="tag tag--green">Android</span>
+            </div>
+          </article>
+
+          <!-- ══ Project: DarkEntropy ══ -->
+          <article class="card card--decorated"
+            data-category="crypto"
+            aria-label="Project: DarkEntropy">
+            <div class="card__label">Cryptography · Research</div>
+            <div class="project-card__header">
+              <div class="project-card__icon" aria-hidden="true">🎲</div>
+              <div class="project-card__links">
+                <a href="https://github.com" target="_blank" rel="noopener"
+                  class="project-card__link" aria-label="GitHub">
+                  <svg width="13" height="13" viewBox="0 0 24 24"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795
+                      8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23
+                      -.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345
+                      -.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945
+                      -.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305
+                      3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335
+                      -5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54
+                      -1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405
+                      3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66
+                      1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+                      4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22
+                      0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02
+                      12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h3 class="card__title">DarkEntropy</h3>
+            <p class="card__desc">
+              Statistical entropy analysis and PRNG fingerprinting suite.
+              Detects weak random number generators in compiled binaries
+              using NIST SP 800-22 test suite, frequency analysis,
+              and correlation attacks against seeded LCGs and MT19937.
+            </p>
+            <div class="project-card__tags">
+              <span class="tag tag--cyan">Python</span>
+              <span class="tag tag--green">NIST 800-22</span>
+              <span class="tag tag--amber">Statistics</span>
+              <span class="tag tag--cyan">MT19937</span>
+            </div>
+          </article>
+
+          <!-- ══ Project: CTF Writeups Repo ══ -->
+          <article class="card card--decorated"
+            data-category="tool"
+            aria-label="Project: CTF Writeups">
+            <div class="card__label">CTF · Documentation</div>
+            <div class="project-card__header">
+              <div class="project-card__icon" aria-hidden="true">🏁</div>
+              <div class="project-card__links">
+                <a href="https://github.com" target="_blank" rel="noopener"
+                  class="project-card__link" aria-label="GitHub">
+                  <svg width="13" height="13" viewBox="0 0 24 24"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795
+                      8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23
+                      -.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345
+                      -.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945
+                      -.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305
+                      3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335
+                      -5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54
+                      -1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405
+                      3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66
+                      1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+                      4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22
+                      0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02
+                      12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h3 class="card__title">CTF Writeup Archive</h3>
+            <p class="card__desc">
+              Structured repository of 50+ detailed CTF challenge
+              write-ups covering crypto, pwn, rev, web, and forensics
+              categories. Each write-up includes full solve scripts,
+              annotated assembly listings, and conceptual explanations.
+            </p>
+            <div class="project-card__tags">
+              <span class="tag tag--green">Markdown</span>
+              <span class="tag tag--cyan">Python</span>
+              <span class="tag tag--amber">50+ Solves</span>
+            </div>
+          </article>
+
+          <!-- ══ Project: MemDiff ══ -->
+          <article class="card card--decorated"
+            data-category="tool"
+            aria-label="Project: MemDiff">
+            <div class="card__label">Forensics · Tools</div>
+            <div class="project-card__header">
+              <div class="project-card__icon" aria-hidden="true">🧠</div>
+              <div class="project-card__links">
+                <a href="https://github.com" target="_blank" rel="noopener"
+                  class="project-card__link" aria-label="GitHub">
+                  <svg width="13" height="13" viewBox="0 0 24 24"
+                    fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795
+                      8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23
+                      -.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345
+                      -.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945
+                      -.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305
+                      3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335
+                      -5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54
+                      -1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405
+                      3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66
+                      1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+                      4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22
+                      0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02
+                      12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <h3 class="card__title">MemDiff</h3>
+            <p class="card__desc">
+              Memory dump differential analysis tool. Compares two
+              Volatility-processed memory snapshots to highlight
+              injected code regions, new process trees, modified
+              SSDT entries, and rootkit artefacts with visual diffing.
+            </p>
+            <div class="project-card__tags">
+              <span class="tag tag--green">Python</span>
+              <span class="tag tag--cyan">Volatility 3</span>
+              <span class="tag tag--amber">Forensics</span>
+            </div>
+          </article>
+
+        </div>
+        <!-- End grid -->
+
+        <!-- No results message (hidden by default) -->
+        <div id="no-results"
+          style="display:none;text-align:center;padding:4rem 0;
+            font-family:var(--font-mono);color:var(--clr-text-muted);">
+          <div style="font-size:2rem;margin-bottom:1rem;">[ 0x00 ]</div>
+          <div>No projects match that filter.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         GITHUB CTA
+    ══════════════════════════════════════ -->
+    <section class="section"
+      style="background:var(--clr-bg-secondary);
+        border-top:1px solid var(--clr-border);"
+      aria-label="GitHub call to action">
+      <div class="container text-center">
+        <div data-fade>
+          <div style="font-family:var(--font-mono);font-size:0.78rem;
+            color:var(--clr-green);letter-spacing:4px;
+            text-transform:uppercase;margin-bottom:1rem;">
+            // more_on_github
+          </div>
+          <h2 style="margin-bottom:1rem;">
+            See Everything on <span class="text-green">GitHub</span>
+          </h2>
+          <p style="max-width:50ch;margin:0 auto 2rem;
+            color:var(--clr-text-secondary);">
+            All projects, CTF solve scripts, research notes, and
+            experimental tools live on GitHub. Stars and PRs welcome.
+          </p>
+          <a href="https://github.com" target="_blank" rel="noopener"
+            class="btn btn--primary">
+            <svg width="16" height="16" viewBox="0 0 24 24"
+              fill="currentColor" aria-hidden="true">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795
+                8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23
+                -.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345
+                -.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945
+                -.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305
+                3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335
+                -5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54
+                -1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405
+                3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66
+                1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0
+                4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22
+                0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02
+                12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            github.com/zeroday
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <div style="font-family:var(--font-mono);color:var(--clr-green);
+            font-size:1rem;margin-bottom:0.4rem;">
+            <span style="color:var(--clr-cyan)">[</span>
+            ZeroDay
+            <span style="color:var(--clr-cyan)">]</span>
+          </div>
+          <p style="font-family:var(--font-mono);font-size:0.75rem;
+            color:var(--clr-text-muted);max-width:none;">
+            Security Researcher · Shenzhen, China
+          </p>
+        </div>
+        <nav class="footer__links" aria-label="Footer navigation">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="projects.html">Projects</a>
+          <a href="blog/index.html">Blog</a>
+          <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        © 2024 ZeroDay · MIT License · Shenzhen, China
+      </div>
+    </div>
+  </footer>
+
+  <script src="matrix.js"></script>
+  <script src="glitch.js"></script>
+  <script src="core.js"></script>
+
+  <!-- Enhanced filter with no-results handling -->
+  <script>
+    (function () {
+      const btns     = document.querySelectorAll('.filter-btn');
+      const cards    = document.querySelectorAll('#projects-grid [data-category]');
+      const noResult = document.getElementById('no-results');
+
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          btns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
+
+          const filter  = btn.dataset.filter;
+          let   visible = 0;
+
+          cards.forEach(card => {
+            const match = filter === 'all' || card.dataset.category === filter;
+            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+
+            if (match) {
+              card.style.opacity   = '1';
+              card.style.transform = 'scale(1)';
+              card.style.display   = '';
+              visible++;
+            } else {
+              card.style.opacity   = '0';
+              card.style.transform = 'scale(0.96)';
+              setTimeout(() => {
+                if (card.style.opacity === '0') card.style.display = 'none';
+              }, 300);
+            }
+          });
+
+          if (noResult) {
+            noResult.style.display = visible === 0 ? 'block' : 'none';
+          }
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
