@@ -141,7 +141,7 @@
         box-shadow:0 6px 20px rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.05);backdrop-filter:blur(10px)}
       #jb-btn:hover{background:#fff}
       #jb-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
-      #jb-panel{position:fixed;right:16px;bottom:66px;z-index:46;width:min(320px,calc(100vw - 32px));
+      #jb-panel{position:fixed;right:16px;bottom:112px;z-index:46;width:min(320px,calc(100vw - 32px));
         border-radius:16px;background:#fff;color:#14161A;padding:14px 14px 12px;
         box-shadow:0 18px 50px rgba(0,0,0,.28),0 0 0 1px rgba(0,0,0,.05);
         font:400 13.5px/1.5 "PingFang SC","Helvetica Neue",sans-serif}
@@ -260,6 +260,83 @@
             paint();
           })
           .catch(function () { TRACKS = [{ title: "我的歌 01", src: "/music/01.m4a" }]; paint(); });
+      })();
+    </script>
+
+  
+    <!-- 友链：桌上的那本小册子（点开就是这里） -->
+    <style>
+      #fl-btn{position:fixed;right:16px;bottom:66px;z-index:45;display:flex;align-items:center;gap:7px;
+        height:40px;padding:0 15px 0 12px;border:0;border-radius:999px;cursor:pointer;
+        background:rgba(255,255,255,.92);color:#14161A;font:500 13.5px/1 "PingFang SC","Helvetica Neue",sans-serif;
+        box-shadow:0 6px 20px rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.05);backdrop-filter:blur(10px)}
+      #fl-btn:hover{background:#fff}
+      #fl-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+      #fl-panel{position:fixed;right:16px;bottom:112px;z-index:46;width:min(340px,calc(100vw - 32px));
+        max-height:min(70vh,460px);display:flex;flex-direction:column;
+        border-radius:16px;background:#fff;color:#14161A;padding:14px 12px 10px;
+        box-shadow:0 18px 50px rgba(0,0,0,.28),0 0 0 1px rgba(0,0,0,.05);
+        font:400 13px/1.5 "PingFang SC","Helvetica Neue",sans-serif}
+      #fl-panel[hidden]{display:none}
+      #fl-list{list-style:none;margin:8px 0 0;padding:0 2px 0 0;overflow:auto}
+      #fl-list li a{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:10px;
+        text-decoration:none;color:#22262B}
+      #fl-list li a:hover{background:#F5F6F8}
+      #fl-list img{width:34px;height:34px;border-radius:9px;object-fit:cover;background:#F1F2F5;flex:none}
+      #fl-list .txt{min-width:0;flex:1}
+      #fl-list .nm{display:block;font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      #fl-list .ds{display:block;font-size:11.5px;color:#9AA0A8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      #fl-foot{margin-top:8px;padding-top:8px;border-top:1px solid #EEF0F3;font-size:11.5px;color:#B0B6BE;text-align:center}
+    </style>
+    <button id="fl-btn" type="button" aria-label="朋友们的网站" aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H14v16h4.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>
+      <span>友链</span>
+    </button>
+    <div id="fl-panel" hidden>
+      <div class="jb-top"><b>朋友们的网站</b><button id="fl-close" type="button" aria-label="关闭">×</button></div>
+      <ul id="fl-list"></ul>
+      <div id="fl-foot">想换友链，写信给我</div>
+    </div>
+    <script>
+      (function () {
+        var FRIENDS = [
+          ["三极管域", "折腾电子和代码", "https://www.triode.cc", "/friends/01.png"],
+          ["楽楽依", "可爱日常", "https://leyi.live", "/friends/02.png"],
+          ["9C±Void", "啥都没有的小站", "https://cauliweak9.github.io", "/friends/03.png"],
+          ["Rinne", "混搭小站", "https://www.rinne.in", "/friends/04.png"],
+          ["SongHappy", "随便写写", "https://blog.songhappy.cn", "/friends/05.png"],
+          ["DA", "CTF / 挖洞", "https://docacer.top", "/friends/06.png"],
+          ["btop251", "安全笔记", "https://blog.btop251.top", "/friends/07.png"],
+          ["decimo", "欢迎串门", "https://decimo.top", "/friends/08.png"],
+          ["神秘猫窝", "猫的窝", "https://cat26610.github.io", "/friends/09.png"],
+          ["dxfaker", "默默无闻的小站", "https://dxfaker.top", "/friends/10.png"]
+        ];
+        var btn = document.getElementById("fl-btn"), panel = document.getElementById("fl-panel");
+        var list = document.getElementById("fl-list");
+        FRIENDS.forEach(function (f) {
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.href = f[2]; a.target = "_blank"; a.rel = "noopener noreferrer";
+          var img = document.createElement("img"); img.src = f[3]; img.alt = ""; img.loading = "lazy";
+          var txt = document.createElement("span"); txt.className = "txt";
+          var nm = document.createElement("span"); nm.className = "nm"; nm.textContent = f[0];
+          var ds = document.createElement("span"); ds.className = "ds"; ds.textContent = f[1];
+          txt.appendChild(nm); txt.appendChild(ds);
+          a.appendChild(img); a.appendChild(txt);
+          li.appendChild(a); list.appendChild(li);
+        });
+        function open(v) {
+          panel.hidden = !v;
+          btn.setAttribute("aria-expanded", String(v));
+          if (v) { var jp = document.getElementById("jp2"); }
+          if (v) { var jb = document.getElementById("jb-panel"); if (jb) jb.hidden = true; }
+        }
+        btn.onclick = function () { open(panel.hidden); };
+        document.getElementById("fl-close").onclick = function () { open(false); };
+        // 桌上那本小册子点开也是这里
+        window.__friendsOpen = function () { open(true); };
+        var jb = document.getElementById("jb-btn");
+        if (jb) jb.addEventListener("click", function () { panel.hidden = true; btn.setAttribute("aria-expanded", "false"); });
       })();
     </script>
 
