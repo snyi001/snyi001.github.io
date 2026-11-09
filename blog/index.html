@@ -74,7 +74,10 @@
   article blockquote{margin:18px 0;padding:4px 0 4px 16px;border-left:2px solid var(--line);color:#6C7686}
   article code{font-family:"SF Mono",Menlo,monospace;font-size:.9em;background:#F3F4F6;padding:1px 5px;border-radius:5px}
   article pre{background:#F7F7F8;border:1px solid var(--line);border-radius:12px;padding:16px 18px;overflow-x:auto;margin:18px 0}
-  article pre code{background:none;padding:0;font-size:13px;line-height:1.7}
+  article pre code{background:none;padding:0;font-size:13px;line-height:1.7;display:block;white-space:pre}
+  article pre[data-lang]{position:relative;padding-top:30px}
+  article pre[data-lang]::before{content:attr(data-lang);position:absolute;top:9px;left:16px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#9AA0A8;font-family:inherit}
+  article .callout{background:#F8F8F9;border-left:3px solid #DCDFE4;border-radius:10px;padding:13px 16px;margin:18px 0;font-size:15.5px;line-height:1.85;color:#3F454D}
   article img{max-width:100%;border-radius:12px;margin:18px 0;display:block;border:1px solid var(--line)}
   article figure{margin:20px 0}
   article figcaption{font-size:12.5px;color:var(--muted);text-align:center;margin-top:8px}
@@ -322,12 +325,25 @@ async function docxToPost(raw, fileName){
     return url ? `<img src="${url}" alt="">` : "";
   }
 
+  const MONO = /consolas|courier|monaco|menlo|monospace|dejavu sans mono|source code|fira code|jetbrains/i;
+  function isMonoParagraph(p){
+    const fonts = [...p.getElementsByTagName("w:rFonts")]
+      .map(f => [f.getAttribute("w:ascii"), f.getAttribute("w:hAnsi"), f.getAttribute("w:eastAsia")].join(" "));
+    if (!fonts.length) return false;
+    const mono = fonts.filter(f => MONO.test(f)).length;
+    return mono > 0 && mono >= Math.ceil(fonts.length * 0.6);
+  }
+
   async function paragraphHtml(p){
     const ps = p.getElementsByTagName("w:pStyle")[0];
     const style = ps ? (ps.getAttribute("w:val") || "") : "";
     const hm = style.match(/^(?:heading|Heading)?\s*([1-6])$/) || style.match(/^Heading([1-6])$/i);
     const level = hm ? Number(hm[1]) : 0;
     const isList = p.getElementsByTagName("w:numPr").length > 0;
+    if (!level && !isList && isMonoParagraph(p)){
+      const raw = textOf(p).replace(/\s+$/, "");
+      if (raw.trim()) return { html:"", level:0, list:false, text:raw.trim(), code:raw };
+    }
 
     let html = "";
     for (const r of p.getElementsByTagName("w:r")){
@@ -358,8 +374,24 @@ async function docxToPost(raw, fileName){
   }
 
   async function tableHtml(tbl){
+    const rows = [...tbl.getElementsByTagName("w:tr")];
+    // Word 里的「代码块」常常是一个单格表格：整格都是等宽字体 → 当代码
+    if (rows.length === 1 && rows[0].getElementsByTagName("w:tc").length === 1){
+      const ps = [...rows[0].getElementsByTagName("w:p")];
+      if (ps.length && ps.every(isMonoParagraph)){
+        const lines = ps.map(p=>textOf(p).replace(/\s+$/, ""));
+        while (lines.length && !lines[0].trim()) lines.shift();
+        while (lines.length && !lines[lines.length-1].trim()) lines.pop();
+        if (lines.join("").trim()) return { code: lines.join("\n"), html:"" };
+      }
+    }
+    // 单格但正文是普通字体：当「说明框」，比画一个一格的表格好看
+    if (rows.length === 1 && rows[0].getElementsByTagName("w:tc").length === 1){
+      const ps = [...rows[0].getElementsByTagName("w:p")].map(p=>esc(textOf(p).trim())).filter(t=>t);
+      if (ps.length) return { html:`<div class="callout">${ps.join("<br>")}</div>`, code:"" };
+    }
     let out = "<table>";
-    for (const tr of tbl.getElementsByTagName("w:tr")){
+    for (const tr of rows){
       out += "<tr>";
       for (const tc of tr.getElementsByTagName("w:tc")){
         const cells = [...tc.getElementsByTagName("w:p")].map(p=>esc(textOf(p).trim())).join("<br>");
@@ -367,32 +399,52 @@ async function docxToPost(raw, fileName){
       }
       out += "</tr>";
     }
-    return out + "</table>";
+    return { html: out + "</table>", code:"" };
   }
 
   let html = "", inList = false, title = "", summary = "";
   let blocks = 0, firstH1 = "";
+  let codeBuf = [];                                  // 连续的等宽行攒在一起，最后合成一个 <pre>
+  const LANG = /^(python3?|plain ?text|abap|bash|shell|sh|zsh|javascript|typescript|json|yaml|html|css|sql|java|cpp|c\+\+|csharp|golang|go|rust|php|ruby|swift|kotlin|asm|text)\s*(?=\S)/i;
+  const flushCode = () => {
+    if (!codeBuf.length) return;
+    let body = codeBuf.join("\n");
+    let lang = "";
+    const m = body.match(LANG);
+    // Word 里的代码块常带一行语言名（从聊天窗口粘过来的），把它抽出来当标签
+    if (m && body.length > m[0].length + 3){ lang = m[1].toLowerCase().replace(/\s+/g,""); body = body.slice(m[0].length); }
+    html += lang ? `<pre data-lang="${esc(lang)}"><code>${esc(body)}</code></pre>`
+                 : `<pre><code>${esc(body)}</code></pre>`;
+    codeBuf = [];
+  };
+  const endList = () => { if (inList){ html += "</ul>"; inList = false; } };
+
   for (const node of body.childNodes){
     if (node.nodeType !== 1) continue;
     if (node.nodeName === "w:tbl"){
-      if (inList){ html += "</ul>"; inList = false; }
-      html += await tableHtml(node);
+      const t = await tableHtml(node);
       blocks++;
+      if (t.code){ codeBuf.push(t.code); continue; }
+      flushCode(); endList();
+      html += t.html;
       continue;
     }
     if (node.nodeName !== "w:p") continue;
     const r = await paragraphHtml(node);
-    if (!r.html) continue;
+    if (!r.html && !r.code) continue;
     blocks++;
+    if (r.code){ codeBuf.push(r.code); continue; }
+    flushCode();
     // 文档开头的那个大标题只当文章标题，不在正文里重复一遍
     if (blocks === 1 && r.level === 1){ firstH1 = r.text; continue; }
     if (r.list && !inList){ html += "<ul>"; inList = true; }
-    if (!r.list && inList){ html += "</ul>"; inList = false; }
+    if (!r.list) endList();
     html += r.html;
     if (!title && !r.list && r.text) title = r.text;
     if (!summary && r.text && r.text !== title) summary = r.text.slice(0, 60);
   }
-  if (inList) html += "</ul>";
+  flushCode();
+  endList();
 
   const meta = metaFromName(fileName);
   const finalTitle = meta.title || firstH1 || title || fileName;
