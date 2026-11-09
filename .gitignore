@@ -1,4 +1,5 @@
 # 只在本地有效的文件，不需要上传
+_drafts/
 .workbuddy/
 _data/
 _vercel/

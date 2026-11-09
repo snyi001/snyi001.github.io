@@ -25,7 +25,7 @@ export const TILES = [
   { label: "WhatsApp", value: "Chat with me", href: link("WhatsApp"), icon: "whatsapp" },
   { label: "领英", value: "in/sabaamiri", href: link("领英"), icon: "linkedin" },
   { label: "GitHub", value: "naerae100", href: link("GitHub"), icon: "github" },
-  { label: "网站", value: "xueying.site", href: "https://www.xueying.site", icon: "globe" },
+  { label: "网站", value: "snyi001.github.io", href: "https://snyi001.github.io", icon: "globe" },
 ].map((t, i) => ({ ...t, x: i < 3 ? 64 : 548, y: 232 + (i % 3) * 124, w: 420, h: 112 }));
 
 export type Tile = (typeof TILES)[number];
@@ -191,7 +191,7 @@ export function drawFront(g: CanvasRenderingContext2D, img: HTMLImageElement | n
   etched(g, "Localisation & security · Shenzhen", 65, h - 70, GREY);
   g.font = font(500, 22);
   g.textAlign = "right";
-  etched(g, "xueying.site", w - 64, h - 70, GREY);
+  etched(g, "snyi001.github.io", w - 64, h - 70, GREY);
   g.restore();
 }
 
