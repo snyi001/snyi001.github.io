@@ -4,6 +4,11 @@
    "title": "我的歌 01",
    "artist": "",
    "src": "/music/01.m4a"
+  },
+  {
+   "title": "我的歌 02",
+   "artist": "",
+   "src": "/music/02.m4a"
   }
  ]
 }
