@@ -1,0 +1,1 @@
+const t={locate:null,arriving:!1,announce:!1};function o(e){const n=e.at?new Date(e.at).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}):"";return{name:`${e.by}'s pick`,line:[e.no?`No. ${e.no}`:"",n].filter(Boolean).join(" · ")}}const a=1.34,s=e=>`https://i.ytimg.com/vi/${e}/hqdefault.jpg`;export{a as C,o as a,s as c,t as s};

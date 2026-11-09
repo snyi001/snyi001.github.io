@@ -1,0 +1,6 @@
+import{c as o}from"./index-C2XQ_-zY.js";/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const y=o("Trash2",[["path",{d:"M3 6h18",key:"d0wm0j"}],["path",{d:"M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6",key:"4alrt4"}],["path",{d:"M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2",key:"v07s0e"}],["line",{x1:"10",x2:"10",y1:"11",y2:"17",key:"1uufr5"}],["line",{x1:"14",x2:"14",y1:"11",y2:"17",key:"xtxkd"}]]),a="xueyinglabs:diary-key",s={get(){try{return localStorage.getItem(a)}catch{return null}},set(e){try{e?localStorage.setItem(a,e):localStorage.removeItem(a)}catch{}}};async function d(){const e=await fetch("/api/diary");if(e.status===503)return null;if(!e.ok)throw new Error("Couldn't open the diary.");return(await e.json()).pages}async function l(e){const n=s.get(),r=await fetch("/api/diary",{method:"POST",headers:{"Content-Type":"application/json",...n?{"x-admin-key":n}:{}},body:JSON.stringify(e)}),t=await r.json().catch(()=>({}));if(!r.ok||!t.page)throw new Error(t.error||"The page couldn't be added. Try again in a minute.");return t.page}const c=new Intl.DateTimeFormat("zh-CN",{timeZone:"Asia/Shanghai",year:"numeric",month:"numeric",day:"numeric"}),p=e=>c.format(new Date(e));export{y as T,s as a,l as b,d as l,p};

@@ -1,0 +1,1 @@
+import{r as a,m as o,j as e}from"./index-C2XQ_-zY.js";function c(r){const s=a.useCallback(t=>o.attach(t),[]);return e.jsx("div",{"aria-hidden":"true",className:"pointer-events-none fixed left-0 top-0 -z-10 opacity-0",children:e.jsx("div",{ref:s,className:"h-[200px] w-[200px] overflow-hidden"})})}export{c as default};

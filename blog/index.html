@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>博客 · 高雪樱</title>
+<style>
+  :root{
+    --ink:#14161A; --body:#33383F; --muted:#8A9099; --line:#E7E9ED;
+    --bg:#FBFAF8; --card:#FFFFFF; --accent:#A62B2B; --chip:#F1F2F5;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,sans-serif;
+    background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased;
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  header{
+    flex:0 0 auto; display:flex; align-items:baseline; gap:12px;
+    padding:16px 22px 14px; border-bottom:1px solid var(--line); background:rgba(255,255,255,.72);
+    backdrop-filter:blur(12px);
+  }
+  header .who{font-size:15px;font-weight:600;letter-spacing:-.01em}
+  header .what{font-size:12.5px;color:var(--muted)}
+  header .spacer{flex:1}
+  header .hint{font-size:11.5px;color:var(--muted)}
+
+  .wrap{flex:1 1 auto;display:grid;grid-template-columns:236px 300px 1fr;min-height:0}
+
+  /* 左：分区 */
+  aside{min-height:0;overflow-y:auto;border-right:1px solid var(--line);padding:16px 10px 24px;background:var(--card)}
+  aside .label{font-size:11px;letter-spacing:.14em;color:#A0A6AE;font-weight:600;padding:4px 12px 10px}
+  .cat{display:flex;align-items:center;gap:8px;width:100%;border:0;background:transparent;cursor:pointer;
+    padding:9px 12px;border-radius:10px;font:inherit;font-size:14px;color:#3B4046;text-align:left}
+  .cat:hover{background:#F5F6F8}
+  .cat.on{background:#F1F2F5;color:var(--ink);font-weight:600}
+  .cat .n{margin-left:auto;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .cat .dot{width:6px;height:6px;border-radius:99px;background:#B9BFC7;flex:0 0 auto}
+  .cat .dot.cve{background:#A62B2B}
+  .cat .dot.ai{background:#5B4BC4}
+  .cat .dot.io{background:#1F6E6B}
+  .cat .dot.misc{background:#8F6212}
+
+  .tags{display:flex;flex-wrap:wrap;gap:6px;padding:2px 12px 12px}
+  .tag{font-size:11.5px;padding:4px 9px;border-radius:999px;background:var(--chip);color:#5E646C;
+    border:0;cursor:pointer;font-family:inherit}
+  .tag.on{background:var(--ink);color:#fff}
+  aside .tip{margin:14px 12px 0;font-size:11.5px;line-height:1.7;color:#A0A6AE}
+
+  /* 中：列表 */
+  .list{min-height:0;overflow-y:auto;border-right:1px solid var(--line);background:var(--card)}
+  .list .head{padding:18px 18px 10px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+  .item{display:block;width:100%;text-align:left;border:0;background:transparent;cursor:pointer;
+    padding:12px 18px;border-top:1px solid #F3F4F6;font:inherit;color:var(--ink)}
+  .item:hover{background:#FAFAFB}
+  .item.on{background:#F7F7F9}
+  .item .t{font-size:14.5px;font-weight:600;line-height:1.5;display:block}
+  .item .d{font-size:11.5px;color:var(--muted);margin-top:4px;display:block}
+
+  /* 右：正文 */
+  main{min-height:0;overflow-y:auto;padding:34px 44px 64px;background:var(--card)}
+  article{max-width:660px;margin:0 auto}
+  article .meta{font-size:12px;color:var(--muted);letter-spacing:.04em;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  article .meta .pill{background:var(--chip);border-radius:999px;padding:3px 9px;color:#4A5058}
+  article h1{font-size:33px;line-height:1.3;letter-spacing:-.02em;font-weight:600;margin:12px 0 20px}
+  article h2{font-size:20px;font-weight:600;margin:34px 0 12px}
+  article h3{font-size:16.5px;font-weight:600;margin:26px 0 10px}
+  article p{font-size:16px;line-height:1.95;color:var(--body);margin:14px 0}
+  article a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(166,43,43,.3)}
+  article strong{font-weight:600;color:var(--ink)}
+  article ul,article ol{margin:14px 0 14px 4px;padding-left:20px}
+  article li{font-size:16px;line-height:1.9;color:var(--body);margin:6px 0}
+  article blockquote{margin:18px 0;padding:4px 0 4px 16px;border-left:2px solid var(--line);color:#6C7686}
+  article code{font-family:"SF Mono",Menlo,monospace;font-size:.9em;background:#F3F4F6;padding:1px 5px;border-radius:5px}
+  article pre{background:#F7F7F8;border:1px solid var(--line);border-radius:12px;padding:16px 18px;overflow-x:auto;margin:18px 0}
+  article pre code{background:none;padding:0;font-size:13px;line-height:1.7}
+  article img{max-width:100%;border-radius:12px;margin:18px 0;display:block;border:1px solid var(--line)}
+  article figure{margin:20px 0}
+  article figcaption{font-size:12.5px;color:var(--muted);text-align:center;margin-top:8px}
+  article hr{border:0;border-top:1px solid var(--line);margin:30px 0}
+  article table{border-collapse:collapse;margin:18px 0;font-size:14.5px;width:100%}
+  article th,article td{border:1px solid var(--line);padding:7px 11px;text-align:left}
+
+  #drop{position:fixed;inset:0;display:none;place-items:center;z-index:50;pointer-events:none;
+    background:rgba(250,250,251,.86);backdrop-filter:blur(3px)}
+  body.dropping #drop{display:grid}
+  #drop .box{border:1.5px dashed #C9CDD4;border-radius:18px;padding:34px 40px;text-align:center;background:#fff;
+    font-size:15px;color:#4A5058;line-height:1.9}
+  #drop .box b{display:block;font-size:17px;color:#14161A;margin-bottom:6px}
+  .localnote{margin:0 0 14px;font-size:12.5px;color:#8F6212;background:#FBF3E4;border-radius:9px;padding:8px 11px;display:inline-block}
+  .empty{padding:60px 18px;text-align:center;color:var(--muted);font-size:13.5px;line-height:1.9}
+  .back{display:none}
+  ::-webkit-scrollbar{width:9px}
+  ::-webkit-scrollbar-thumb{background:#E1E4E8;border-radius:99px}
+  ::-webkit-scrollbar-track{background:transparent}
+
+  @media (max-width: 960px){
+    .wrap{grid-template-columns:1fr}
+    aside{border-right:0;border-bottom:1px solid var(--line)}
+    .list{border-right:0}
+    main{display:none}
+    body.reading aside,body.reading .list{display:none}
+    body.reading main{display:block;padding:22px 20px 60px}
+    body.reading .back{display:inline-block}
+    article h1{font-size:26px}
+  }
+  .back{border:0;background:#F1F2F5;border-radius:99px;padding:7px 13px;font:inherit;font-size:13px;
+    color:#4A5058;cursor:pointer;margin-bottom:16px}
+</style>
+</head>
+<body>
+<header>
+  <span class="who">高雪樱</span>
+  <span class="what">/ 博客</span>
+  <span class="spacer"></span>
+  <span class="hint" id="count"></span>
+</header>
+
+<div id="drop"><div class="box"><b>松手就预览</b>把 .docx 或 .md 拖进来，先看看效果<br>
+  上传要真正生效，还是要把它放进 GitHub 的 posts/ 目录</div></div>
+
+<div class="wrap">
+  <aside>
+    <div class="label">分区</div>
+    <div id="cats"></div>
+    <div id="tags"></div>
+    <div class="tip">在 GitHub 的 <b>posts/</b> 里放 <b>.md</b> 或 <b>.docx</b>，这里就会出现。docx 的文件名可以写成 <b>[网安] 2026-11-09 标题.docx</b>。</div>
+  </aside>
+  <div class="list" id="listWrap"></div>
+  <main id="main">
+    <article id="article"><div class="empty">选一篇开始读。</div></article>
+  </main>
+</div>
+
+<script>
+/* ---------- 极简 Markdown ---------- */
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+// 站内相对路径（图片、链接）都按 posts/ 目录解析
+function resolveUrl(u){
+  if (!u) return u;
+  if (/^(https?:)?\/\//i.test(u) || u.startsWith("/") || u.startsWith("#") ||
+      u.startsWith("mailto:") || u.startsWith("data:")) return u;
+  return "../posts/" + u.replace(/^\.\//,"");
+}
+
+function inline(s){
+  s = esc(s);
+  s = s.replace(/`([^`]+)`/g, (m,a)=>`<code>${a}</code>`);
+  s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  s = s.replace(/(^|[^*])\*([^*]+)\*/g, "$1<em>$2</em>");
+  s = s.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (m,a,b,c)=>`<img src="${resolveUrl(b)}" alt="${a}"${c?` title="${c}"`:""}>`);
+  s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m,a,b)=>`<a href="${resolveUrl(b)}" target="_blank" rel="noopener">${a}</a>`);
+  return s;
+}
+
+function md(src){
+  const lines = src.replace(/\r\n/g,"\n").split("\n");
+  let out = [], i = 0, inCode = false, code = [], list = null;
+  const closeList = ()=>{ if(list){ out.push(`</${list}>`); list=null; } };
+  while (i < lines.length){
+    let l = lines[i];
+    if (/^```/.test(l)){
+      if (inCode){ out.push(`<pre><code>${esc(code.join("\n"))}</code></pre>`); code=[]; inCode=false; }
+      else { closeList(); inCode = true; }
+      i++; continue;
+    }
+    if (inCode){ code.push(l); i++; continue; }
+    if (!l.trim()){ closeList(); i++; continue; }
+    let m;
+    // 独占一行的图片 → figure + 图注
+    if (m = l.match(/^\s*!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)\s*$/)){
+      closeList();
+      const cap = m[3] || m[1];
+      out.push(`<figure><img src="${resolveUrl(m[2])}" alt="${m[1]}">${cap?`<figcaption>${esc(cap)}</figcaption>`:""}</figure>`);
+      i++; continue;
+    }
+    if (m = l.match(/^(#{1,4})\s+(.*)$/)){
+      closeList();
+      const n = m[1].length;
+      out.push(`<h${n}>${inline(m[2])}</h${n}>`); i++; continue;
+    }
+    if (/^(-{3,}|\*{3,})\s*$/.test(l)){ closeList(); out.push("<hr>"); i++; continue; }
+    if (m = l.match(/^>\s?(.*)$/)){ closeList(); out.push(`<blockquote>${inline(m[1])}</blockquote>`); i++; continue; }
+    if (m = l.match(/^\s*[-*+]\s+(.*)$/)){
+      if (list !== "ul"){ closeList(); out.push("<ul>"); list="ul"; }
+      out.push(`<li>${inline(m[1])}</li>`); i++; continue;
+    }
+    if (m = l.match(/^\s*\d+[.)]\s+(.*)$/)){
+      if (list !== "ol"){ closeList(); out.push("<ol>"); list="ol"; }
+      out.push(`<li>${inline(m[1])}</li>`); i++; continue;
+    }
+    closeList();
+    out.push(`<p>${inline(l)}</p>`); i++;
+  }
+  if (inCode) out.push(`<pre><code>${esc(code.join("\n"))}</code></pre>`);
+  closeList();
+  return out.join("\n");
+}
+
+/* ---------- 文章数据 ---------- */
+function parseFront(text){
+  const meta = {}; let body = text;
+  const m = text.match(/^---\n([\s\S]*?)\n---\n?/);
+  if (m){
+    body = text.slice(m[0].length);
+    m[1].split("\n").forEach(line=>{
+      const i = line.indexOf(":");
+      if (i > 0) meta[line.slice(0,i).trim().toLowerCase()] = line.slice(i+1).trim().replace(/^["']|["']$/g,"");
+    });
+  }
+  return { meta, body };
+}
+function firstHeading(body){ const m = body.match(/^#\s+(.+)$/m); return m ? m[1] : ""; }
+function stripTitle(body){ return body.replace(/^\s*#\s+.+\n+/, ""); }
+function parseTags(v){ return (v||"").split(/[,，、]/).map(s=>s.trim()).filter(Boolean); }
+
+function makePost(slug, text, fallbackTitle){
+  const { meta, body } = parseFront(text);
+  const tags = parseTags(meta.tags || meta.tag);
+  return {
+    slug,
+    title: meta.title || firstHeading(body) || fallbackTitle || slug,
+    date: meta.date || "",
+    summary: meta.summary || "",
+    category: meta.category || "未分类",
+    tags,
+    markdown: stripTitle(body)
+  };
+}
+
+
+/* ---------- .docx：在浏览器里解压 + 读 XML ---------- */
+// 只做博客需要的部分：标题、段落、粗体/斜体、列表、表格、图片
+const u32 = (v,o)=> (v[o]|v[o+1]<<8|v[o+2]<<16|v[o+3]<<24)>>>0;
+const u16 = (v,o)=> (v[o]|v[o+1]<<8);
+
+function zipIndex(buf){
+  // 找 EOCD
+  let eocd = -1;
+  for (let i = buf.length-22; i >= Math.max(0, buf.length-66000); i--){
+    if (buf[i]===0x50 && buf[i+1]===0x4b && buf[i+2]===0x05 && buf[i+3]===0x06){ eocd = i; break; }
+  }
+  if (eocd < 0) throw new Error("不是有效的 docx");
+  const count = u16(buf, eocd+10);
+  let p = u32(buf, eocd+16);
+  const map = new Map();
+  for (let n=0; n<count; n++){
+    if (!(buf[p]===0x50 && buf[p+1]===0x4b && buf[p+2]===0x01 && buf[p+3]===0x02)) break;
+    const method = u16(buf, p+10);
+    const csize = u32(buf, p+20);
+    const nameLen = u16(buf, p+28), extraLen = u16(buf, p+30), cmtLen = u16(buf, p+32);
+    const off = u32(buf, p+42);
+    const name = new TextDecoder("utf-8").decode(buf.slice(p+46, p+46+nameLen));
+    map.set(name, {method, csize, off});
+    p += 46 + nameLen + extraLen + cmtLen;
+  }
+  return map;
+}
+
+async function zipRead(buf, idx, name){
+  const e = idx.get(name);
+  if (!e) return null;
+  const nameLen = u16(buf, e.off+26), extraLen = u16(buf, e.off+28);
+  const start = e.off + 30 + nameLen + extraLen;
+  const data = buf.slice(start, start + e.csize);
+  if (e.method === 0) return data;
+  if (typeof DecompressionStream === "undefined") throw new Error("浏览器不支持解压 docx");
+  const ds = new DecompressionStream("deflate-raw");
+  const stream = new Blob([data]).stream().pipeThrough(ds);
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
+function textOf(el){
+  let out = "";
+  for (const n of el.childNodes){
+    if (n.nodeType === 1){
+      if (n.nodeName === "w:t") out += n.textContent;
+      else if (n.nodeName === "w:br") out += "\n";
+      else if (n.nodeName === "w:tab") out += "\t";
+      else if (n.nodeName !== "w:rPr" && n.nodeName !== "w:pPr") out += textOf(n);
+    }
+  }
+  return out;
+}
+
+async function docxToPost(raw, fileName){
+  const buf = raw instanceof Uint8Array ? raw : new Uint8Array(raw);
+  const idx = zipIndex(buf);
+  const docXml = new TextDecoder("utf-8").decode(await zipRead(buf, idx, "word/document.xml"));
+  let rels = {};
+  const relXmlBytes = await zipRead(buf, idx, "word/_rels/document.xml.rels");
+  if (relXmlBytes){
+    const relXml = new TextDecoder("utf-8").decode(relXmlBytes);
+    const re = /Id="([^"]+)"[^>]*Target="([^"]+)"/g; let m;
+    while ((m = re.exec(relXml))) rels[m[1]] = m[2];
+  }
+
+  const xml = new DOMParser().parseFromString(docXml, "application/xml");
+  const body = xml.getElementsByTagName("w:body")[0];
+  const mediaCache = new Map();
+
+  async function imgTag(el){
+    const blip = el.getElementsByTagName("a:blip")[0] || el.getElementsByTagName("v:imagedata")[0];
+    if (!blip) return "";
+    const rid = blip.getAttribute("r:embed") || blip.getAttribute("r:id");
+    const target = rels[rid];
+    if (!target) return "";
+    const path = "word/" + target.replace(/^\.?\//,"");
+    if (!mediaCache.has(path)){
+      const bytes = await zipRead(buf, idx, path);
+      if (!bytes) { mediaCache.set(path, null); }
+      else {
+        const ext = (path.split(".").pop() || "png").toLowerCase();
+        const mime = ext === "svg" ? "image/svg+xml" : ext === "gif" ? "image/gif"
+                   : ext === "jpg" || ext === "jpeg" ? "image/jpeg" : ext === "webp" ? "image/webp" : "image/png";
+        mediaCache.set(path, URL.createObjectURL(new Blob([bytes], {type:mime})));
+      }
+    }
+    const url = mediaCache.get(path);
+    return url ? `<img src="${url}" alt="">` : "";
+  }
+
+  async function paragraphHtml(p){
+    const ps = p.getElementsByTagName("w:pStyle")[0];
+    const style = ps ? (ps.getAttribute("w:val") || "") : "";
+    const hm = style.match(/^(?:heading|Heading)?\s*([1-6])$/) || style.match(/^Heading([1-6])$/i);
+    const level = hm ? Number(hm[1]) : 0;
+    const isList = p.getElementsByTagName("w:numPr").length > 0;
+
+    let html = "";
+    for (const r of p.getElementsByTagName("w:r")){
+      const rPr = r.getElementsByTagName("w:rPr")[0];
+      const bold = rPr && rPr.getElementsByTagName("w:b").length > 0;
+      const ital = rPr && rPr.getElementsByTagName("w:i").length > 0;
+      let piece = "";
+      for (const n of r.childNodes){
+        if (n.nodeType !== 1) continue;
+        if (n.nodeName === "w:t") piece += esc(n.textContent);
+        else if (n.nodeName === "w:br") piece += "<br>";
+        else if (n.nodeName === "w:tab") piece += " ";
+        else if (n.nodeName === "w:drawing" || n.nodeName === "w:pict") piece += await imgTag(n);
+      }
+      if (!piece) continue;
+      if (bold) piece = `<strong>${piece}</strong>`;
+      if (ital) piece = `<em>${piece}</em>`;
+      html += piece;
+    }
+    if (!html.trim()) return {html:"", level:0, list:false, text:""};
+
+    const plain = textOf(p).trim();
+    if (level) return {html:`<h${Math.min(level,3)}>${html}</h${Math.min(level,3)}>`, level, list:false, text:plain};
+    if (isList) return {html:`<li>${html}</li>`, level:0, list:true, text:plain};
+    // 只有一张图的一段，不加 <p>
+    if (/^<img [^>]*>$/.test(html.trim())) return {html:`<figure>${html}</figure>`, level:0, list:false, text:plain};
+    return {html:`<p>${html}</p>`, level:0, list:false, text:plain};
+  }
+
+  async function tableHtml(tbl){
+    let out = "<table>";
+    for (const tr of tbl.getElementsByTagName("w:tr")){
+      out += "<tr>";
+      for (const tc of tr.getElementsByTagName("w:tc")){
+        const cells = [...tc.getElementsByTagName("w:p")].map(p=>esc(textOf(p).trim())).join("<br>");
+        out += `<td>${cells}</td>`;
+      }
+      out += "</tr>";
+    }
+    return out + "</table>";
+  }
+
+  let html = "", inList = false, title = "", summary = "";
+  let blocks = 0, firstH1 = "";
+  for (const node of body.childNodes){
+    if (node.nodeType !== 1) continue;
+    if (node.nodeName === "w:tbl"){
+      if (inList){ html += "</ul>"; inList = false; }
+      html += await tableHtml(node);
+      blocks++;
+      continue;
+    }
+    if (node.nodeName !== "w:p") continue;
+    const r = await paragraphHtml(node);
+    if (!r.html) continue;
+    blocks++;
+    // 文档开头的那个大标题只当文章标题，不在正文里重复一遍
+    if (blocks === 1 && r.level === 1){ firstH1 = r.text; continue; }
+    if (r.list && !inList){ html += "<ul>"; inList = true; }
+    if (!r.list && inList){ html += "</ul>"; inList = false; }
+    html += r.html;
+    if (!title && !r.list && r.text) title = r.text;
+    if (!summary && r.text && r.text !== title) summary = r.text.slice(0, 60);
+  }
+  if (inList) html += "</ul>";
+
+  const meta = metaFromName(fileName);
+  return {
+    slug: fileName.replace(/\.docx$/i,""),
+    title: meta.title || firstH1 || title || fileName,
+    date: meta.date || "",
+    summary: meta.summary || summary,
+    category: meta.category || "未分类",
+    tags: meta.tags,
+    html
+  };
+}
+
+// 文件名里可以带信息：[网安] 2026-11-09 我的标题.docx
+function metaFromName(name){
+  let base = name.replace(/\.(docx|md)$/i, "");
+  let category = "", date = "";
+  const cm = base.match(/^\[([^\]]+)\]\s*/);
+  if (cm){ category = cm[1].trim(); base = base.slice(cm[0].length); }
+  const dm = base.match(/^(\d{4}-\d{2}-\d{2})\s+/);
+  if (dm){ date = dm[1]; base = base.slice(dm[0].length); }
+  return { category, date, title: base.trim(), tags: [], summary: "" };
+}
+
+function basePath(){
+  const p = location.pathname;
+  return p.endsWith("/") ? p : p.replace(/[^/]*$/,"");
+}
+function guessRepo(){
+  if (!/\.github\.io$/.test(location.hostname)) return null;
+  const owner = location.hostname.split(".")[0];
+  const seg = basePath().split("/").filter(Boolean);   // /blog/ 这种是站内目录，不是仓库名
+  const repos = [owner + ".github.io"];                // 用户站：仓库名就是 <user>.github.io
+  if (seg.length && seg[0] !== owner + ".github.io") repos.push(seg[0]);  // 项目站再试一次
+  return { owner, repos };
+}
+
+async function fetchList(){
+  // 1) 本地预览服务器
+  try{
+    const r = await fetch(new URL("../api/posts", location.href), {cache:"no-store"});
+    if (r.ok){
+      const j = await r.json();
+      if (Array.isArray(j.posts) && j.posts.length){
+        return Promise.all(j.posts.map(async p=>{
+          const url = new URL(p.url, location.href);
+          const r2 = await fetch(url, {cache:"no-store"});
+          if (/\.docx$/i.test(p.url)) return docxToPost(await r2.arrayBuffer(), p.name || p.slug + ".docx");
+          return makePost(p.slug, await r2.text(), p.slug);
+        }));
+      }
+    }
+  }catch(e){}
+
+  // 2) GitHub Pages：列出 posts/ 目录
+  const repo = guessRepo();
+  if (repo){
+    for (const name of repo.repos){
+      try{
+        const api = `https://api.github.com/repos/${repo.owner}/${name}/contents/posts`;
+        const r = await fetch(api, {headers:{Accept:"application/vnd.github+json"}});
+        if (!r.ok) continue;
+        const files = (await r.json()).filter(f=>/\.(md|docx)$/i.test(f.name) && !/^[.~]/.test(f.name));
+        return Promise.all(files.map(async f=>{
+          const r2 = await fetch(f.download_url,{cache:"no-store"});
+          if (/\.docx$/i.test(f.name)) return docxToPost(await r2.arrayBuffer(), f.name);
+          return makePost(f.name.replace(/\.md$/i,""), await r2.text(), f.name);
+        }));
+      }catch(e){}
+    }
+  }
+
+  // 3) 兜底：posts/index.json
+  try{
+    const r = await fetch(new URL("../posts/index.json", location.href),{cache:"no-store"});
+    if (r.ok){
+      const j = await r.json();
+      return Promise.all((j.posts||[]).map(async p=>{
+        const t = await (await fetch(p.file,{cache:"no-store"})).text();
+        return makePost(p.slug, t, p.slug);
+      }));
+    }
+  }catch(e){}
+  return [];
+}
+function fmt(d){ return d ? String(d).replace(/-/g,".") : ""; }
+
+/* ---------- 渲染 ---------- */
+const catsEl = document.getElementById("cats");
+const tagsEl = document.getElementById("tags");
+const listEl = document.getElementById("listWrap");
+const artEl = document.getElementById("article");
+
+let POSTS = [], CATS = [];
+let activeCat = "全部", activeTag = "";
+
+function buildCats(){
+  const map = new Map();
+  POSTS.forEach(p=>{
+    if (!map.has(p.category)) map.set(p.category, {name:p.category, n:0, tags:new Set()});
+    const c = map.get(p.category); c.n++; p.tags.forEach(t=>c.tags.add(t));
+  });
+  CATS = [...map.values()].sort((a,b)=> b.n - a.n || a.name.localeCompare(b.name,"zh"));
+}
+function dotClass(name){
+  if (/网安|安全/.test(name)) return "cve";
+  if (/AI/i.test(name)) return "ai";
+  if (/IO/i.test(name)) return "io";
+  return "misc";
+}
+
+function renderCats(){
+  const all = `<button class="cat ${activeCat==="全部"?"on":""}" data-cat="全部">
+      <span class="dot misc"></span>全部<span class="n">${POSTS.length}</span></button>`;
+  const rest = CATS.map(c=>
+    `<button class="cat ${activeCat===c.name?"on":""}" data-cat="${escapeAttr(c.name)}">
+      <span class="dot ${dotClass(c.name)}"></span>${escapeHtml(c.name)}<span class="n">${c.n}</span></button>`
+  ).join("");
+  catsEl.innerHTML = all + rest;
+
+  const cat = CATS.find(c=>c.name===activeCat);
+  const tags = cat ? [...cat.tags] : [];
+  if (tags.length){
+    tagsEl.className = "tags";
+    tagsEl.innerHTML = tags.map(t=>
+      `<button class="tag ${activeTag===t?"on":""}" data-tag="${escapeAttr(t)}">${escapeHtml(t)}</button>`
+    ).join("");
+  } else {
+    tagsEl.className = ""; tagsEl.innerHTML = "";
+  }
+
+  catsEl.querySelectorAll(".cat").forEach(b=>{
+    b.onclick = ()=>{ activeCat = b.dataset.cat; activeTag = ""; renderCats(); renderList(); };
+  });
+  tagsEl.querySelectorAll(".tag").forEach(b=>{
+    b.onclick = ()=>{ activeTag = (activeTag===b.dataset.tag) ? "" : b.dataset.tag; renderCats(); renderList(); };
+  });
+}
+
+function visiblePosts(){
+  return POSTS.filter(p=>
+    (activeCat==="全部" || p.category===activeCat) &&
+    (!activeTag || p.tags.includes(activeTag))
+  );
+}
+
+function renderList(){
+  const rows = visiblePosts();
+  const head = `<div class="head">${escapeHtml(activeCat)}${activeTag? " · " + escapeHtml(activeTag) : ""} · ${rows.length} 篇</div>`;
+  if (!rows.length){
+    listEl.innerHTML = head + `<div class="empty">这个分区还没有文章。</div>`;
+    return;
+  }
+  listEl.innerHTML = head + rows.map(p=>
+    `<button class="item" data-slug="${escapeAttr(p.slug)}">
+      <span class="t">${escapeHtml(p.title)}</span>
+      <span class="d">${fmt(p.date)}${p.summary? " · " + escapeHtml(p.summary) : ""}</span>
+    </button>`).join("");
+  listEl.querySelectorAll(".item").forEach(b=>{
+    b.onclick = ()=> openPost(b.dataset.slug);
+  });
+}
+
+function openPost(slug){
+  const p = POSTS.find(x=>x.slug===slug);
+  if (!p) return;
+  const pills = [p.category, ...p.tags].filter(Boolean)
+    .map(x=>`<span class="pill">${escapeHtml(x)}</span>`).join("");
+  artEl.innerHTML =
+    `<button class="back" onclick="document.body.classList.remove('reading')">← 返回列表</button>` +
+    (p.local ? `<div class="localnote">本地预览 · 还没上传，放进 GitHub 的 posts/ 之后才会一直在</div>` : "") +
+    `<div class="meta"><span>${fmt(p.date)}</span>${pills}</div>` +
+    `<h1>${escapeHtml(p.title)}</h1>` + (p.html || md(p.markdown || ""));
+  document.body.classList.add("reading");
+  listEl.querySelectorAll(".item").forEach(b=> b.classList.toggle("on", b.dataset.slug===slug));
+  document.getElementById("main").scrollTop = 0;
+  history.replaceState(null,"", basePath() + "?p=" + encodeURIComponent(slug));
+}
+
+function escapeHtml(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function escapeAttr(s){ return escapeHtml(s).replace(/"/g,"&quot;"); }
+
+/* ---------- 拖进来先预览 ---------- */
+let dragDepth = 0;
+window.addEventListener("dragover", e => { e.preventDefault(); });
+window.addEventListener("dragenter", e => {
+  if (![...(e.dataTransfer.types||[])].includes("Files")) return;
+  dragDepth++; document.body.classList.add("dropping");
+});
+window.addEventListener("dragleave", () => {
+  dragDepth = Math.max(0, dragDepth-1);
+  if (!dragDepth) document.body.classList.remove("dropping");
+});
+window.addEventListener("drop", async e => {
+  e.preventDefault(); dragDepth = 0; document.body.classList.remove("dropping");
+  const f = e.dataTransfer.files && e.dataTransfer.files[0];
+  if (!f) return;
+  try{
+    let post;
+    if (/\.docx$/i.test(f.name)) post = await docxToPost(await f.arrayBuffer(), f.name);
+    else if (/\.md$/i.test(f.name)) post = makePost(f.name.replace(/\.md$/i,""), await f.text(), f.name);
+    else return alert("只支持 .docx 和 .md");
+    post.local = true;
+    POSTS = [post, ...POSTS.filter(p=>p.slug!==post.slug)];
+    buildCats(); renderCats(); renderList(); openPost(post.slug);
+  }catch(err){ alert("这个文件读不出来：" + err.message); }
+});
+
+(async () => {
+  POSTS = await fetchList();
+  POSTS.sort((a,b)=> (b.date||"").localeCompare(a.date||""));
+  buildCats();
+  document.getElementById("count").textContent = POSTS.length ? POSTS.length + " 篇" : "";
+
+  const want = new URLSearchParams(location.search).get("p");
+  renderCats();
+
+  if (want && POSTS.some(p=>p.slug===want)){
+    activeCat = POSTS.find(p=>p.slug===want).category;
+    renderCats();
+  }
+  renderList();
+
+  if (want && POSTS.some(p=>p.slug===want)) openPost(want);
+  else if (visiblePosts().length) openPost(visiblePosts()[0].slug);
+})();
+</script>
+</body>
+</html>

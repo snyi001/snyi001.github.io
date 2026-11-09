@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>术语库 · 高雪樱</title>
+<style>
+  :root{
+    --ink:#12151A; --muted:#8A9099; --line:#ECEDF0; --bg:#FBFBFD;
+    --blue:#1D4E89; --green:#256B4B; --red:#A62B2B; --amber:#8F6212;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,sans-serif;
+    background:var(--bg); color:var(--ink); display:flex; flex-direction:column; overflow:hidden; overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  header{
+    flex:0 0 auto; padding:calc(14px + env(safe-area-inset-top)) 18px 12px;
+    background:#fff; border-bottom:1px solid var(--line);
+    display:flex; align-items:flex-end; justify-content:space-between; gap:10px;
+  }
+  header h1{font-size:22px; font-weight:600; letter-spacing:-.01em}
+  header .sync{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); padding-bottom:2px}
+  header .dot{width:6px;height:6px;border-radius:99px;background:#22C55E}
+  .search{margin:12px 14px 0; display:flex; align-items:center; gap:9px; height:42px; border-radius:14px;
+    background:#F1F2F5; padding:0 14px; color:var(--muted); font-size:14px; flex:0 0 auto}
+  .search input{flex:1 1 auto; min-width:0; width:100%; border:0; outline:0; background:transparent; font:inherit; color:var(--ink)}
+  .search input::placeholder{color:#A7ADB5}
+  main{flex:1 1 auto; overflow-y:auto; overflow-x:hidden; padding:12px 14px 18px; -webkit-overflow-scrolling:touch}
+  .label{font-size:11px; letter-spacing:.14em; color:#A0A6AE; font-weight:600; margin:6px 2px 8px}
+  .card{background:#fff; border:1px solid var(--line); border-radius:16px; padding:13px 14px 12px;
+    box-shadow:0 6px 18px rgba(18,21,26,.05); margin-bottom:10px}
+  .card .en{font-size:12px; color:var(--muted); letter-spacing:.02em}
+  .card .zh{font-size:20px; font-weight:600; margin-top:2px}
+  .card .fa{font-size:14px; color:var(--blue); margin-top:5px; direction:rtl; text-align:right; unicode-bidi:plaintext}
+  .row{display:flex; flex-wrap:wrap; gap:6px; margin-top:9px}
+  .tag{font-size:10.5px; padding:3px 8px; border-radius:99px; background:#F1F3F6; color:#5E646C; font-weight:500}
+  .tag.warn{background:#FBEDEC; color:var(--red)}
+  .tag.ok{background:#EEF6F1; color:var(--green)}
+  .note{margin-top:9px; font-size:11.5px; line-height:1.55; color:#5A6068; border-left:2px solid #E4E7EB; padding-left:9px}
+  .checks{display:grid; gap:7px; margin-top:2px}
+  .chk{display:flex; gap:8px; align-items:flex-start; font-size:12px; line-height:1.5; color:#3B4046}
+  .chk i{width:14px;height:14px;border-radius:99px;background:var(--green);flex:0 0 auto;margin-top:2px;position:relative}
+  .chk i::after{content:"";position:absolute;left:4px;top:2.5px;width:4px;height:7px;border-right:1.6px solid #fff;border-bottom:1.6px solid #fff;transform:rotate(42deg)}
+  .chk.off i{background:#D8DCE1}
+  .chk.off{color:#9AA0A8}
+  footer{flex:0 0 auto; padding:9px 16px calc(10px + env(safe-area-inset-bottom)); border-top:1px solid var(--line);
+    background:#fff; display:flex; justify-content:space-between; font-size:11px; color:#9AA0A8; letter-spacing:.02em}
+  .empty{padding:26px 4px; text-align:center; color:#9AA0A8; font-size:13px}
+  main::-webkit-scrollbar{width:0}
+</style>
+</head>
+<body>
+<header>
+  <h1>术语库</h1>
+  <div class="sync"><span class="dot"></span><span>已同步</span></div>
+</header>
+
+<div class="search">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg>
+  <input id="q" autocomplete="off" spellcheck="false" placeholder="搜一个词：funding rate…">
+</div>
+
+<main>
+  <div class="label">词条 · 波斯语</div>
+  <div id="list"></div>
+  <div class="label" style="margin-top:14px">每一条都要过 4 项</div>
+  <div class="card" style="box-shadow:none">
+    <div class="checks">
+      <div class="chk"><i></i>术语库里有对应词条</div>
+      <div class="chk"><i></i>语气和场景一致（公告 / 客服 / 风险）</div>
+      <div class="chk"><i></i>数字、日期、占比没有走样</div>
+      <div class="chk off"><i></i>中东用户读到会做错事吗（人工再过一遍）</div>
+    </div>
+  </div>
+</main>
+
+<footer><span>MEXC · 波斯语</span><span>14 个月</span></footer>
+
+<script>
+const TERMS = [
+  {en:"funding rate", zh:"资金费率", fa:"نرخ بهره", tags:["永续合约","风控"], warn:"警告语境",
+   note:"不要译成「利率」，会和借贷利率混淆。公告里第一次出现要带英文原文。"},
+  {en:"delisting", zh:"下架", fa:"حذف از فهرست", tags:["公告","风险"], warn:"",
+   note:"只用在「交易对被移除」；「停止交易」是另一个词，别混。"},
+  {en:"liquidation", zh:"强制平仓", fa:"تسویه اجباری", tags:["风控"], warn:"警告语境",
+   note:"比「爆仓」正式；面向用户的提示里用完整说法，社群口语另说。"},
+  {en:"risk notice", zh:"风险提示", fa:"اطلاعیه ریسک", tags:["公告"], warn:"",
+   note:"标题不写「警告」，正文第一句说清要用户做什么。"},
+  {en:"KYC", zh:"身份认证", fa:"احراز هویت", tags:["合规"], warn:"",
+   note:"缩写首次出现要展开；伊朗用户对「身份」一词敏感，用中性表述。"},
+  {en:"staking", zh:"质押", fa:"استیکینگ", tags:["产品"], warn:"",
+   note:"波斯语习惯直接音译，配一句解释放在括号里。"},
+  {en:"margin", zh:"保证金", fa:"وجه تضمین", tags:["交易"], warn:"",
+   note:"和「杠杆」分开：一个是钱，一个是倍数，混用会让用户算错仓位。"},
+  {en:"airdrop", zh:"空投", fa:"ایردراپ", tags:["活动"], warn:"",
+   note:"带条件的空投必须写清门槛，否则评论区全是问「为什么我没有」。"},
+  {en:"slippage", zh:"滑点", fa:"لغزش قیمت", tags:["交易"], warn:"",
+   note:"中文「滑点」很口语，波斯语要写全，别只写数字。"},
+  {en:"whitelist", zh:"白名单", fa:"لیست سفید", tags:["合规"], warn:"",
+   note:"中文里「白名单」有争议，正式公告用「允许名单」更稳。"}
+];
+
+const list = document.getElementById("list");
+const q = document.getElementById("q");
+
+function render(kw){
+  const k = (kw||"").trim().toLowerCase();
+  const rows = k ? TERMS.filter(t =>
+    (t.en + " " + t.zh + " " + t.fa + " " + t.tags.join(" ")).toLowerCase().includes(k)) : TERMS;
+  if (!rows.length){
+    list.innerHTML = '<div class="empty">术语库里还没有这个词，先记一笔待确认。</div>';
+    return;
+  }
+  list.innerHTML = rows.map(t => `
+    <div class="card">
+      <div class="en">${t.en}</div>
+      <div class="zh">${t.zh}</div>
+      <div class="fa">${t.fa}</div>
+      <div class="row">${t.tags.map(x=>`<span class="tag">${x}</span>`).join("")}${t.warn?`<span class="tag warn">${t.warn}</span>`:""}</div>
+      <div class="note">${t.note}</div>
+    </div>`).join("");
+}
+render("");
+q.addEventListener("input", e => render(e.target.value));
+</script>
+</body>
+</html>

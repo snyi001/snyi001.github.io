@@ -1,0 +1,12 @@
+# 只在本地有效的文件，不需要上传
+.workbuddy/
+_data/
+_vercel/
+serve.py
+启动网站.command
+.DS_Store
+**/.DS_Store
+
+# Word 打开文件时生成的临时锁文件
+posts/~$*
+posts/.~*

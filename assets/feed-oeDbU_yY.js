@@ -1,0 +1,1 @@
+const a="pl_feed_name",s=[1,5,10],e={min:1,max:999999},t=n=>`$${n.toLocaleString("en-AU")}`,c=n=>n>=10?"feast":n>=5?"dinner":"snack",o={snack:"a snack",dinner:"dinner",feast:"a feast"};export{a as F,o as M,s as a,e as b,c,t as m};
