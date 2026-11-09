@@ -395,9 +395,15 @@ async function docxToPost(raw, fileName){
   if (inList) html += "</ul>";
 
   const meta = metaFromName(fileName);
+  const finalTitle = meta.title || firstH1 || title || fileName;
+  // 有些 Word 文档开头会自己再写一遍标题（标题样式之外的那一行），去掉开头重复的那一份
+  html = html.replace(/^\s*<(p|h[1-3])>([\s\S]*?)<\/\1>/i, (m0, tag, inner) => {
+    const txt = inner.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").trim();
+    return txt === String(finalTitle).trim() ? "" : m0;
+  });
   return {
     slug: fileName.replace(/\.docx$/i,""),
-    title: meta.title || firstH1 || title || fileName,
+    title: finalTitle,
     date: meta.date || "",
     summary: meta.summary || summary,
     category: meta.category || "未分类",
