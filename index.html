@@ -247,7 +247,11 @@
         document.getElementById("jb-next").onclick = function () { select(cur + 1, true); };
         document.getElementById("jb-prev").onclick = function () { select(cur - 1, true); };
         // 桌面上那台唱片机点一下，就放这里的歌
-        window.__deskPlay = function () { panel.hidden = false; toggle(); };
+        window.__deskPlay = function () {           // 点唱片机 = 打开面板并开始放（不会因为连点而暂停）
+          panel.hidden = false;
+          if (!audio.src) select(cur, true);
+          else if (audio.paused) audio.play().catch(function () {});
+        };
 
         fetch("/music/tracks.json", { cache: "no-store" })
           .then(function (r) { return r.ok ? r.json() : { tracks: [] }; })

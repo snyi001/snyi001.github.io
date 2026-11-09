@@ -259,10 +259,10 @@ function NOTEBOOK(e){
 function RECORDHIT(e){
   const p=e.position||[0,0,0];
   return r.jsxs("group",{position:p,children:[
-    r.jsx("mesh",{position:[0,.12,0],onClick:function(ev){if(ev&&ev.stopPropagation)ev.stopPropagation();if(typeof window.__deskPlay==="function")window.__deskPlay();},
+    r.jsx("mesh",{position:[0,.16,0],onClick:function(ev){if(ev&&ev.stopPropagation)ev.stopPropagation();if(typeof window.__deskPlay==="function")window.__deskPlay();},
       onPointerOver:function(){document.body.style.cursor="pointer";},onPointerOut:function(){document.body.style.cursor="";},
       children:[
-        r.jsx("boxGeometry",{args:[1.15,.42,1.05]}),
+        r.jsx("boxGeometry",{args:[2.1,.7,1.9]}),
         r.jsx("meshBasicMaterial",{transparent:true,opacity:0,depthWrite:false})
       ]})
   ]});
