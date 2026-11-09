@@ -186,7 +186,7 @@ export function drawFront(g: CanvasRenderingContext2D, img: HTMLImageElement | n
   g.fill();
   g.textAlign = "left";
   g.font = font(600, 62);
-  etched(g, "高雪樱", 62, h - 118);
+  etched(g, "snhowying", 62, h - 118);
   g.font = font(400, 28);
   etched(g, "Localisation & security · Shenzhen", 65, h - 70, GREY);
   g.font = font(500, 22);
@@ -203,7 +203,7 @@ export function drawBack(g: CanvasRenderingContext2D, img: HTMLImageElement | nu
   metal(g);
   portrait(g, img, 92, 114, 30, "rgba(255,255,255,0.28)");
   g.font = font(600, 36);
-  etched(g, "高雪樱", 140, 110);
+  etched(g, "snhowying", 140, 110);
   g.font = font(400, 23);
   etched(g, "Localisation & security · Shenzhen", 141, 142, GREY);
   g.textAlign = "right";
