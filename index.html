@@ -317,7 +317,7 @@
           var li = document.createElement("li");
           var a = document.createElement("a");
           a.href = f[2]; a.target = "_blank"; a.rel = "noopener noreferrer";
-          var img = document.createElement("img"); img.src = f[3]; img.alt = ""; img.loading = "lazy";
+          var img = document.createElement("img"); img.src = f[3]; img.alt = ""; img.decoding = "async";
           var txt = document.createElement("span"); txt.className = "txt";
           var nm = document.createElement("span"); nm.className = "nm"; nm.textContent = f[0];
           var ds = document.createElement("span"); ds.className = "ds"; ds.textContent = f[1];
