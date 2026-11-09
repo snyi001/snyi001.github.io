@@ -288,8 +288,7 @@
       #fl-list li a:hover{background:#F5F6F8}
       #fl-list img{width:34px;height:34px;border-radius:9px;object-fit:cover;background:#F1F2F5;flex:none}
       #fl-list .txt{min-width:0;flex:1}
-      #fl-list .nm{display:block;font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-      #fl-list .ds{display:block;font-size:11.5px;color:#9AA0A8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      #fl-list .nm{display:block;font-size:13.5px;font-weight:500;line-height:34px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
       #fl-foot{margin-top:8px;padding-top:8px;border-top:1px solid #EEF0F3;font-size:11.5px;color:#B0B6BE;text-align:center}
     </style>
     <button id="fl-btn" type="button" aria-label="朋友们的网站" aria-expanded="false">
@@ -324,8 +323,7 @@
           var img = document.createElement("img"); img.src = f[3]; img.alt = ""; img.decoding = "async";
           var txt = document.createElement("span"); txt.className = "txt";
           var nm = document.createElement("span"); nm.className = "nm"; nm.textContent = f[0];
-          var ds = document.createElement("span"); ds.className = "ds"; ds.textContent = f[1];
-          txt.appendChild(nm); txt.appendChild(ds);
+          txt.appendChild(nm);
           a.appendChild(img); a.appendChild(txt);
           li.appendChild(a); list.appendChild(li);
         });
