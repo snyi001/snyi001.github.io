@@ -344,5 +344,39 @@
       })();
     </script>
 
+  
+    <!-- 桌上的笔记本里是 /blog/ 的 iframe：这里盯着 iframe 的地址，文章一打开就把标签页地址也改掉 -->
+    <script>
+      (function () {
+        var SITE_TITLE = "树上的那些雪 · sn0wing";
+        var last = null;
+        function hrefOf(f) {
+          try { return f.contentWindow.location.pathname + f.contentWindow.location.search; }
+          catch (e) { return null; }
+        }
+        function titleOf(f) {
+          try { return f.contentDocument.title || ""; } catch (e) { return ""; }
+        }
+        function tick() {
+          var frames = document.querySelectorAll("iframe");
+          for (var i = 0; i < frames.length; i++) {
+            var f = frames[i];
+            if (!f.src || f.src.indexOf("/blog/") === -1) continue;
+            var href = hrefOf(f);
+            if (!href || href === last) continue;
+            last = href;
+            var isPost = /[?&]p=/.test(href);
+            var want = isPost ? href : "/";
+            var title = isPost ? (titleOf(f) || SITE_TITLE) : SITE_TITLE;
+            try {
+              if (location.pathname + location.search !== want) history.replaceState(null, "", want);
+              document.title = title;
+            } catch (e) {}
+          }
+        }
+        setInterval(tick, 600);
+      })();
+    </script>
+
   </body>
 </html>
