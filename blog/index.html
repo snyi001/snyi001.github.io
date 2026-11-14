@@ -494,7 +494,7 @@ async function fetchList(){
     if (r.ok){
       const j = await r.json();
       if (Array.isArray(j.posts) && j.posts.length){
-        return Promise.all(j.posts.map(async p=>{
+        return await Promise.all(j.posts.map(async p=>{
           const url = new URL(p.url, location.href);
           const r2 = await fetch(url, {cache:"no-store"});
           if (/\.docx$/i.test(p.url)) return docxToPost(await r2.arrayBuffer(), p.name || p.slug + ".docx");
@@ -518,8 +518,10 @@ async function fetchList(){
         finally { clearTimeout(timer); }
         if (!r.ok) continue;
         const files = (await r.json()).filter(f=>/\.(md|docx)$/i.test(f.name) && !/^[.~]/.test(f.name));
-        return Promise.all(files.map(async f=>{
+        // 注意：这里必须 await，任何一篇下载失败都要能被 catch 住，好退回 index.json
+        return await Promise.all(files.map(async f=>{
           const r2 = await fetch(f.download_url,{cache:"no-store"});
+          if (!r2.ok) throw new Error("post " + r2.status);
           if (/\.docx$/i.test(f.name)) return docxToPost(await r2.arrayBuffer(), f.name);
           return makePost(f.name.replace(/\.md$/i,""), await r2.text(), f.name);
         }));
