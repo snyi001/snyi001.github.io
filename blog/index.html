@@ -510,7 +510,12 @@ async function fetchList(){
     for (const name of repo.repos){
       try{
         const api = `https://api.github.com/repos/${repo.owner}/${name}/contents/posts`;
-        const r = await fetch(api, {headers:{Accept:"application/vnd.github+json"}});
+        // 限流或网络卡住时别一直等：4 秒拿不到就走下面的 index.json
+        const ac = new AbortController();
+        const timer = setTimeout(()=>ac.abort(), 4000);
+        let r;
+        try { r = await fetch(api, {headers:{Accept:"application/vnd.github+json"}, signal: ac.signal}); }
+        finally { clearTimeout(timer); }
         if (!r.ok) continue;
         const files = (await r.json()).filter(f=>/\.(md|docx)$/i.test(f.name) && !/^[.~]/.test(f.name));
         return Promise.all(files.map(async f=>{
