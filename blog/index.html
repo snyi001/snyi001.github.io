@@ -642,6 +642,17 @@ function findPost(key){
 }
 function postUrl(slug){ return basePath() + "?p=" + encodeURIComponent(urlKey(slug)); }
 
+// 这个页面有时是被「桌上的笔记本」用 iframe 打开的：那样的话地址栏属于父页面，
+// 所以文章打开/关闭时要把父页面的地址和标题一起改掉，标签页上才看得见是哪一篇。
+function inFrame(){ try { return window.parent && window.parent !== window; } catch(e){ return false; } }
+function syncParent(url, title){
+  if (!inFrame()) return;
+  try {
+    window.parent.history.replaceState(null, "", url);
+    if (title) window.parent.document.title = title;
+  } catch(e){}
+}
+
 function openPost(slug, push){
   const p = findPost(slug);
   if (!p) return;
@@ -664,6 +675,7 @@ function openPost(slug, push){
   const now = location.pathname + location.search;
   if (push) { if (now !== url) history.pushState({p:slug}, "", url); }
   else history.replaceState({p:slug}, "", url);
+  syncParent(url, p.title + " · " + SITE_NAME);
 }
 
 // 回到列表：地址也回到 /blog/
@@ -676,6 +688,7 @@ function closePost(push){
   if (now === url || now === url + "?") return;
   if (push === false) history.replaceState(null, "", url);
   else history.pushState(null, "", url);
+  syncParent(url, BLOG_TITLE);
 }
 window.closePost = closePost;
 
