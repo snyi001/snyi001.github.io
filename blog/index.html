@@ -613,21 +613,64 @@ function renderList(){
   });
 }
 
-function openPost(slug){
-  const p = POSTS.find(x=>x.slug===slug);
+const SITE_NAME = "树上的那些雪";
+const BLOG_TITLE = "树上的那些雪 · 博客";
+let currentSlug = null;
+
+function urlKey(slug){
+  return String(slug)
+    .replace(/^\[[^\]]*\]\s*/,"")     // 去掉 [网安] 这样的分区前缀
+    .replace(/^\d{4}-\d{2}-\d{2}\s*/,"")  // 去掉日期前缀
+    .trim().replace(/\s+/g,"-");
+}
+function findPost(key){
+  return POSTS.find(p=>p.slug===key) || POSTS.find(p=>urlKey(p.slug)===key);
+}
+function postUrl(slug){ return basePath() + "?p=" + encodeURIComponent(urlKey(slug)); }
+
+function openPost(slug, push){
+  const p = findPost(slug);
   if (!p) return;
+  slug = p.slug;
   const pills = [p.category, ...p.tags].filter(Boolean)
     .map(x=>`<span class="pill">${escapeHtml(x)}</span>`).join("");
   artEl.innerHTML =
-    `<button class="back" onclick="document.body.classList.remove('reading')">← 返回列表</button>` +
+    `<button class="back" onclick="closePost()">← 返回列表</button>` +
     (p.local ? `<div class="localnote">本地预览 · 还没上传，放进 GitHub 的 posts/ 之后才会一直在</div>` : "") +
     `<div class="meta"><span>${fmt(p.date)}</span>${pills}</div>` +
     `<h1>${escapeHtml(p.title)}</h1>` + (p.html || md(p.markdown || ""));
   document.body.classList.add("reading");
   listEl.querySelectorAll(".item").forEach(b=> b.classList.toggle("on", b.dataset.slug===slug));
   document.getElementById("main").scrollTop = 0;
-  history.replaceState(null,"", basePath() + "?p=" + encodeURIComponent(slug));
+
+  // 每篇文章一个自己的地址：收藏 / 分享 / 刷新都能直接回到这一篇
+  currentSlug = slug;
+  document.title = p.title + " · " + SITE_NAME;
+  const url = postUrl(slug);
+  const now = location.pathname + location.search;
+  if (push) { if (now !== url) history.pushState({p:slug}, "", url); }
+  else history.replaceState({p:slug}, "", url);
 }
+
+// 回到列表：地址也回到 /blog/
+function closePost(push){
+  currentSlug = null;
+  document.body.classList.remove("reading");
+  document.title = BLOG_TITLE;
+  const url = basePath();
+  const now = location.pathname + location.search;
+  if (now === url || now === url + "?") return;
+  if (push === false) history.replaceState(null, "", url);
+  else history.pushState(null, "", url);
+}
+window.closePost = closePost;
+
+// 浏览器前进/后退跟着走
+window.addEventListener("popstate", () => {
+  const want = new URLSearchParams(location.search).get("p");
+  if (want && findPost(want)) openPost(want, false);
+  else closePost(false);
+});
 
 function escapeHtml(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function escapeAttr(s){ return escapeHtml(s).replace(/"/g,"&quot;"); }
@@ -673,8 +716,8 @@ window.addEventListener("drop", async e => {
   }
   renderList();
 
-  if (want && POSTS.some(p=>p.slug===want)) openPost(want);
-  else if (visiblePosts().length) openPost(visiblePosts()[0].slug);
+  if (want && findPost(want)) openPost(want, false);
+  else if (visiblePosts().length) openPost(visiblePosts()[0].slug, false);
 })();
 </script>
 </body>
