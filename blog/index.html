@@ -522,14 +522,16 @@ async function fetchList(){
     }
   }
 
-  // 3) 兜底：posts/index.json
+  // 3) 兜底：posts/index.json（GitHub API 限流时也能正常显示；.docx 也支持）
   try{
     const r = await fetch(new URL("../posts/index.json", location.href),{cache:"no-store"});
     if (r.ok){
       const j = await r.json();
       return Promise.all((j.posts||[]).map(async p=>{
-        const t = await (await fetch(p.file,{cache:"no-store"})).text();
-        return makePost(p.slug, t, p.slug);
+        const file = new URL(p.file, location.href);
+        const r2 = await fetch(file,{cache:"no-store"});
+        if (/\.docx$/i.test(p.file)) return docxToPost(await r2.arrayBuffer(), p.slug + ".docx");
+        return makePost(p.slug, await r2.text(), p.slug);
       }));
     }
   }catch(e){}
