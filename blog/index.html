@@ -519,8 +519,10 @@ async function fetchList(){
         if (!r.ok) continue;
         const files = (await r.json()).filter(f=>/\.(md|docx)$/i.test(f.name) && !/^[.~]/.test(f.name));
         // 注意：这里必须 await，任何一篇下载失败都要能被 catch 住，好退回 index.json
+        // 文件从本站自己的 /posts/ 取（raw.githubusercontent 在很多网络下连不上）
         return await Promise.all(files.map(async f=>{
-          const r2 = await fetch(f.download_url,{cache:"no-store"});
+          const u = new URL("../posts/" + encodeURIComponent(f.name), location.href);
+          const r2 = await fetch(u,{cache:"no-store"});
           if (!r2.ok) throw new Error("post " + r2.status);
           if (/\.docx$/i.test(f.name)) return docxToPost(await r2.arrayBuffer(), f.name);
           return makePost(f.name.replace(/\.md$/i,""), await r2.text(), f.name);
