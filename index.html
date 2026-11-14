@@ -359,11 +359,14 @@
         }
         function tick() {
           var frames = document.querySelectorAll("iframe");
+          var found = false;
           for (var i = 0; i < frames.length; i++) {
             var f = frames[i];
             if (!f.src || f.src.indexOf("/blog/") === -1) continue;
             var href = hrefOf(f);
-            if (!href || href === last) continue;
+            if (!href) continue;
+            found = true;
+            if (href === last) continue;
             last = href;
             var isPost = /[?&]p=/.test(href);
             var want = isPost ? href : "/";
@@ -371,6 +374,14 @@
             try {
               if (location.pathname + location.search !== want) history.replaceState(null, "", want);
               document.title = title;
+            } catch (e) {}
+          }
+          // 笔记本关掉了（iframe 不在了）→ 地址和标题回到桌子
+          if (!found && last !== null) {
+            last = null;
+            try {
+              if (location.pathname !== "/" || location.search) history.replaceState(null, "", "/");
+              document.title = SITE_TITLE;
             } catch (e) {}
           }
         }
