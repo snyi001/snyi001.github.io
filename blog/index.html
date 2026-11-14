@@ -533,7 +533,10 @@ async function fetchList(){
     if (r.ok){
       const j = await r.json();
       return Promise.all((j.posts||[]).map(async p=>{
-        const file = new URL(p.file, location.href);
+        // 文件名里有空格、方括号、中文，必须逐段编码，否则 fetch 会直接失败
+        const encoded = String(p.file).split("/")
+          .map(seg => (seg === ".." || seg === ".") ? seg : encodeURIComponent(seg)).join("/");
+        const file = new URL(encoded, location.href);
         const r2 = await fetch(file,{cache:"no-store"});
         if (/\.docx$/i.test(p.file)) return docxToPost(await r2.arrayBuffer(), p.slug + ".docx");
         return makePost(p.slug, await r2.text(), p.slug);
